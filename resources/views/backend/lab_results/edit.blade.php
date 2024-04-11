@@ -42,36 +42,44 @@
                 @method('PATCH')
 
                 <div class="form-group">
-                  <label for="patient_id">Patient <span class="text-danger">*</span></label>
-                  <select name="patient_id" class="form-control" required>
+                  <label for="medical_record_id">Medical Record <span class="text-danger">*</span></label>
+                  <select name="medical_record_id" class="form-control" required>
                       <option value="">----</option>
-                      @foreach($patients as $key=>$data)
-                          <option value='{{$data->id}}' {{(($data->id==$medical->patient_id)? 'selected' : '')}}>{{$data->first_name}}</option>
+                      @foreach($medicals as $key=>$data)
+                          <option value='{{$data->id}}' {{(($data->id==$lab->medical_record_id)? 'selected' : '')}}>{{$data->visit_date}}</option>
                       @endforeach
                   </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputTitle" class="col-form-label">Visit Date <span class="text-danger">*</span></label>
-                    <input id="inputTitle" type="text" name="visit_date" placeholder=""  value="{{$medical->visit_date}}" class="form-control" required>
-                    @error('visit_date')
+                    <label for="inputTitle" class="col-form-label">Test Name <span class="text-danger">*</span></label>
+                    <input id="inputTitle" type="text" name="test_name" placeholder=""  value="{{$lab->test_name}}" class="form-control" required>
+                    @error('test_name')
                     <span class="text-danger">{{$message}}</span>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                  <label for="inputDesc" class="col-form-label">Chief Complaint</label>
-                  <textarea class="form-control" id="chief_complaint" name="chief_complaint" required>{{$medical->chief_complaint}}</textarea>
-                  @error('chief_complaint')
+                  <label for="inputDesc" class="col-form-label">Result Details</label>
+                  <textarea class="form-control" id="result_details" name="result_details" required>{{$lab->result_details}}</textarea>
+                  @error('result_details')
                   <span class="text-danger">{{$message}}</span>
                   @enderror
                 </div>
 
                 <div class="form-group">
+                  <label for="inputTitle" class="col-form-label">Result Date <span class="text-danger">*</span></label>
+                  <input id="inputTitle" type="text" name="result_date" placeholder=""  value="{{$lab->result_date}}" class="form-control" required>
+                  @error('result_date')
+                  <span class="text-danger">{{$message}}</span>
+                  @enderror
+              </div>
+
+                <div class="form-group">
                   <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
                   <select name="status" class="form-control" required>
-                    <option value="active" {{(($medical->status=='active') ? 'selected' : '')}}>Active</option>
-                    <option value="inactive" {{(($medical->status=='inactive') ? 'selected' : '')}}>Inactive</option>
+                    <option value="active" {{(($lab->status=='active') ? 'selected' : '')}}>Active</option>
+                    <option value="inactive" {{(($lab->status=='inactive') ? 'selected' : '')}}>Inactive</option>
                   </select>
                   @error('status')
                   <span class="text-danger">{{$message}}</span>

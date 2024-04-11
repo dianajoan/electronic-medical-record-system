@@ -17,3 +17,22 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\MedicalRecordController;
+use App\Http\Controllers\LabResultController;
+use App\Http\Controllers\DrugPrescriptionController;
+
+Route::prefix('v1')->group(function () {
+    // Routes for patients
+    Route::apiResource('patients', PatientController::class);
+
+    // Routes for medical records
+    Route::apiResource('medical-records', MedicalRecordController::class);
+
+    // Routes for lab results
+    Route::apiResource('lab-results', LabResultController::class);
+
+    // Routes for drug prescriptions
+    Route::apiResource('drug-prescriptions', DrugPrescriptionController::class);
+});

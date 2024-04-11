@@ -50,7 +50,7 @@
                           <tbody>
                             @foreach($labResults as $lab)
                               @php 
-                                $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$lab->medical_records_id)->get();
+                                $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$lab->medical_record_id)->get();
                               @endphp
                               <tr>
                                 <td>{{$lab->id}}</td>

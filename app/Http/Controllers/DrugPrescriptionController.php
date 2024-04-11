@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DrugPrescription;
+use App\Models\MedicalRecord;
 use Illuminate\Http\Request;
 
 class DrugPrescriptionController extends Controller
@@ -15,7 +16,9 @@ class DrugPrescriptionController extends Controller
 
     public function create()
     {
-        return view('backend.drug_prescriptions.create');
+        $medicals=MedicalRecord::get();
+        return view('backend.drug_prescriptions.create')
+            ->with('medicals',$medicals);
     }
 
     public function store(Request $request)
@@ -38,9 +41,13 @@ class DrugPrescriptionController extends Controller
         return view('backend.drug_prescriptions.show', compact('drugPrescription'));
     }
 
-    public function edit(DrugPrescription $drugPrescription)
+    public function edit($id)
     {
-        return view('backend.drug_prescriptions.edit', compact('drugPrescription'));
+        $drug=DrugPrescription::findOrFail($id);
+        $medicals=MedicalRecord::get();
+        return view('backend.drug_prescriptions.edit')
+            ->with('drug',$drug)
+            ->with('medicals',$medicals);
     }
 
     public function update(Request $request, DrugPrescription $drugPrescription)

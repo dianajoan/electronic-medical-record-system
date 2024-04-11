@@ -40,7 +40,7 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
     Route::get('/','AdminController@index')->name('admin');
 
     //Routes for Users
-    Route::resource('/users','UserController');
+    Route::resource('/users','UsersController');
 
     // Routes for PatientController
     Route::resource('/patients','PatientController');

@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Add Medical Records @endsection
+@section('title') Add Drug @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -9,7 +9,7 @@
           <div class="col-sm-4">
               <div class="page-header float-left">
                   <div class="page-title">
-                      <h1>Add Medical</h1>
+                      <h1>Add Drug</h1>
                   </div>
               </div>
           </div>
@@ -18,8 +18,8 @@
                   <div class="page-title">
                       <ol class="breadcrumb text-right">
                           <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                          <li><a href="{{ route('medical_records.index') }}">Medical</a></li>
-                          <li class="active">Add Medical</li>
+                          <li><a href="{{ route('drug_prescriptions.index') }}">Drug</a></li>
+                          <li class="active">Add Drug</li>
                       </ol>
                   </div>
               </div>
@@ -37,34 +37,42 @@
                 <strong>Medical</strong>
             </div>
             <div class="card-body card-block">
-              <form method="post" action="{{route('medical_records.store')}}" enctype="multipart/form-data">
+              <form method="post" action="{{route('drug_prescriptions.store')}}" enctype="multipart/form-data">
                 {{csrf_field()}}
 
                 <div class="form-group">
-                  <label for="patient_id">Patients<span class="text-danger">*</span></label>
-                  <select name="patient_id" class="form-control" required>
+                  <label for="medical_record_id">Medical Records<span class="text-danger">*</span></label>
+                  <select name="medical_record_id" class="form-control" required>
                       <option value="">----</option>
-                      @foreach($patients as $key=>$data)
-                          <option value='{{$data->id}}'>{{$data->first_name}}</option>
+                      @foreach($medicals as $key=>$data)
+                          <option value='{{$data->id}}'>{{$data->visit_date}}</option>
                       @endforeach
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <label for="inputTitle" class="col-form-label">Visit Date <span class="text-danger">*</span></label>
-                  <input id="inputTitle" type="date" name="visit_date" placeholder=""  value="{{old('visit_date')}}" class="form-control" required>
-                  @error('visit_date')
+                  <label for="inputTitle" class="col-form-label">Drug Name<span class="text-danger">*</span></label>
+                  <input id="inputTitle" type="text" name="drug_name" placeholder=""  value="{{old('drug_name')}}" class="form-control" required>
+                  @error('drug_name')
                   <span class="text-danger">{{$message}}</span>
                   @enderror
               </div>
 
               <div class="form-group">
-                <label for="inputDesc" class="col-form-label">Chief Complaint</label>
-                <textarea class="form-control" id="chief_complaint" name="chief_complaint" required>{{old('chief_complaint')}}</textarea>
-                @error('chief_complaint')
+                <label for="inputDesc" class="col-form-label">Dosage Instructions</label>
+                <textarea class="form-control" id="dosage_instructions" name="dosage_instructions" required>{{old('dosage_instructions')}}</textarea>
+                @error('dosage_instructions')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
               </div>
+
+              <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Prescription Date<span class="text-danger">*</span></label>
+                <input id="inputTitle" type="date" name="prescription_date" placeholder=""  value="{{old('prescription_date')}}" class="form-control" required>
+                @error('prescription_date')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
                 
                 <div class="form-group">
                   <label for="status" class="col-form-label">Status<span class="text-danger">*</span></label>
