@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Add Medical Records @endsection
+@section('title') Add Lab Results @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -9,7 +9,7 @@
           <div class="col-sm-4">
               <div class="page-header float-left">
                   <div class="page-title">
-                      <h1>Add Medical</h1>
+                      <h1>Add Lab</h1>
                   </div>
               </div>
           </div>
@@ -18,8 +18,8 @@
                   <div class="page-title">
                       <ol class="breadcrumb text-right">
                           <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                          <li><a href="{{ route('medical_records.index') }}">Medical</a></li>
-                          <li class="active">Add Medical</li>
+                          <li><a href="{{ route('lab_results.index') }}">Lab</a></li>
+                          <li class="active">Add Lab</li>
                       </ol>
                   </div>
               </div>
@@ -34,37 +34,45 @@
       <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <strong>Medical</strong>
+                <strong>Lab</strong>
             </div>
             <div class="card-body card-block">
-              <form method="post" action="{{route('medical_records.store')}}" enctype="multipart/form-data">
+              <form method="post" action="{{route('lab_results.store')}}" enctype="multipart/form-data">
                 {{csrf_field()}}
 
                 <div class="form-group">
-                  <label for="patient_id">Patients<span class="text-danger">*</span></label>
-                  <select name="patient_id" class="form-control" required>
+                  <label for="medical_records_id">Medical Records<span class="text-danger">*</span></label>
+                  <select name="medical_records_id" class="form-control" required>
                       <option value="">----</option>
-                      @foreach($patients as $key=>$data)
-                          <option value='{{$data->id}}'>{{$data->first_name}}</option>
+                      @foreach($medicals as $key=>$data)
+                          <option value='{{$data->id}}'>{{$data->visit_date}}</option>
                       @endforeach
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <label for="inputTitle" class="col-form-label">Visit Date <span class="text-danger">*</span></label>
-                  <input id="inputTitle" type="date" name="visit_date" placeholder=""  value="{{old('visit_date')}}" class="form-control" required>
-                  @error('visit_date')
+                  <label for="inputTitle" class="col-form-label">Test Name <span class="text-danger">*</span></label>
+                  <input id="inputTitle" type="text" name="test_name" placeholder=""  value="{{old('test_name')}}" class="form-control" required>
+                  @error('test_name')
                   <span class="text-danger">{{$message}}</span>
                   @enderror
               </div>
 
               <div class="form-group">
-                <label for="inputDesc" class="col-form-label">Chief Complaint</label>
-                <textarea class="form-control" id="chief_complaint" name="chief_complaint" required>{{old('chief_complaint')}}</textarea>
-                @error('chief_complaint')
+                <label for="inputDesc" class="col-form-label">Result Details</label>
+                <textarea class="form-control" id="result_details" name="result_details" required>{{old('result_details')}}</textarea>
+                @error('result_details')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
               </div>
+
+              <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Result Date <span class="text-danger">*</span></label>
+                <input id="inputTitle" type="date" name="result_date" placeholder=""  value="{{old('result_date')}}" class="form-control" required>
+                @error('result_date')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
                 
                 <div class="form-group">
                   <label for="status" class="col-form-label">Status<span class="text-danger">*</span></label>

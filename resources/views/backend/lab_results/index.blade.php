@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Medical Records @endsection
+@section('title') Lab Results @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -7,7 +7,7 @@
   <div class="col-sm-4">
       <div class="page-header float-left">
           <div class="page-title">
-              <h1>Medical</h1>
+              <h1>Lab</h1>
           </div>
       </div>
   </div>
@@ -16,8 +16,8 @@
           <div class="page-title">
               <ol class="breadcrumb text-right">
                 <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                <li><a href="{{ route('medical_records.create')}}"> Add Medical Records</a></li>
-                <li class="active">Medical Records</li>
+                <li><a href="{{ route('lab_results.create')}}"> Add Lab</a></li>
+                <li class="active">Lab</li>
               </ol>
           </div>
       </div>
@@ -31,48 +31,50 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header">
-                      <strong class="card-title">Medical</strong>
+                      <strong class="card-title">Lab</strong>
                   </div>
                   <div class="card-body">
-                    @if(count($medicalRecords)>0)
+                    @if(count($labResults)>0)
                       <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                           <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Patient</th>
-                                <th>Visit Date</th>
-                                <th>Chief Complaint</th>
+                                <th>Medical Record</th>
+                                <th>Test Name</th>
+                                <th>Result Detail</th>
+                                <th>Result Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
                               </tr>
                           </thead>
                           <tbody>
-                            @foreach($medicalRecords as $medical)
+                            @foreach($labResults as $lab)
                               @php 
-                                $patient=DB::table('patients')->select('first_name')->where('id',$medical->patient_id)->get();
+                                $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$lab->medical_records_id)->get();
                               @endphp
                               <tr>
-                                <td>{{$medical->id}}</td>
+                                <td>{{$lab->id}}</td>
                                 <td>
-                                  @foreach($patient as $data)
-                                    {{$medical->patient->first_name}}
+                                  @foreach($medicalRecord as $data)
+                                    {{$lab->medicalRecord->visit_date}}
                                     @endforeach
                                 </td>
-                                <td>{{$medical->visit_date}}</td>
-                                <td>{{$medical->chief_complaint}}</td>
+                                <td>{{$lab->test_name}}</td>
+                                <td>{{$lab->result_detail}}</td>
+                                <td>{{$lab->result_date}}</td>
                                 <td>
-                                    @if($medical->status=='active')
-                                        <span class="badge badge-success">{{$medical->status}}</span>
+                                    @if($lab->status=='active')
+                                        <span class="badge badge-success">{{$lab->status}}</span>
                                     @else
-                                        <span class="badge badge-warning">{{$medical->status}}</span>
+                                        <span class="badge badge-warning">{{$lab->status}}</span>
                                     @endif
                                 </td>
                                 <td>
-                                  <a href="{{route('medical_records.edit',$medical->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
-                                  <form method="POST" action="{{route('medical_records.destroy',[$medical->id])}}">
+                                  <a href="{{route('lab_results.edit',$lab->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
+                                  <form method="POST" action="{{route('lab_results.destroy',[$lab->id])}}">
                                     @csrf 
                                     @method('delete')
-                                        <button class="btn btn-danger btn-sm dltBtn" data-id={{$medical->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
+                                        <button class="btn btn-danger btn-sm dltBtn" data-id={{$lab->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
                                       </form>
                                 </td>
                               </tr>
@@ -80,7 +82,7 @@
                           </tbody>
                       </table>
                       @else
-                      <h6 class="text-center">No medical records found!!! Please add medical records</h6>
+                      <h6 class="text-center">No lab results found!!! Please add lab</h6>
                     @endif
                   </div>
               </div>

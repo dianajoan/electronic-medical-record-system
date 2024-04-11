@@ -10,12 +10,12 @@ class DrugPrescriptionController extends Controller
     public function index()
     {
         $drugPrescriptions = DrugPrescription::all();
-        return view('drug_prescriptions.index', compact('drugPrescriptions'));
+        return view('backend.drug_prescriptions.index', compact('drugPrescriptions'));
     }
 
     public function create()
     {
-        return view('drug_prescriptions.create');
+        return view('backend.drug_prescriptions.create');
     }
 
     public function store(Request $request)
@@ -35,12 +35,12 @@ class DrugPrescriptionController extends Controller
 
     public function show(DrugPrescription $drugPrescription)
     {
-        return view('drug_prescriptions.show', compact('drugPrescription'));
+        return view('backend.drug_prescriptions.show', compact('drugPrescription'));
     }
 
     public function edit(DrugPrescription $drugPrescription)
     {
-        return view('drug_prescriptions.edit', compact('drugPrescription'));
+        return view('backend.drug_prescriptions.edit', compact('drugPrescription'));
     }
 
     public function update(Request $request, DrugPrescription $drugPrescription)

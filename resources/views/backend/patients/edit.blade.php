@@ -37,7 +37,7 @@
               <strong>Edit</strong>
           </div>
           <div class="card-body card-block">
-            <form method="post" action="{{route('tpatients.update',$teamCategory->id)}}">
+            <form method="post" action="{{route('patients.update',$patient->id)}}">
               @csrf 
               @method('PATCH')
               <div class="form-group">
@@ -68,6 +68,30 @@
                 <label for="inputTitle" class="col-form-label">Gender</label>
                 <input id="inputTitle" type="text" name="gender" placeholder=""  value="{{$patient->gender}}" class="form-control" required>
                 @error('gender')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+              </div>
+
+               <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Date of Birth</label>
+                <input id="inputTitle" type="date" name="date_of_birth" placeholder=""  value="{{$patient->date_of_birth}}" class="form-control" required>
+                @error('date_of_birth')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+              </div>
+
+              <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Phone NUmber</label>
+                <input id="inputTitle" type="text" name="phone_number" placeholder=""  value="{{$patient->phone_number}}" class="form-control" required>
+                @error('phone_number')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+              </div>
+
+              <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Next of Kin Relationhip</label>
+                <input id="inputTitle" type="text" name="next_of_kin_relationship" placeholder=""  value="{{$patient->next_of_kin_relationship}}" class="form-control" required>
+                @error('next_of_kin_relationship')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
               </div>

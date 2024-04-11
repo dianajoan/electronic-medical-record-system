@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LabResult;
+use App\Models\MedicalRecord;
 use Illuminate\Http\Request;
 
 class LabResultController extends Controller
@@ -10,12 +11,14 @@ class LabResultController extends Controller
     public function index()
     {
         $labResults = LabResult::all();
-        return view('lab_results.index', compact('labResults'));
+        return view('backend.lab_results.index', compact('labResults'));
     }
 
     public function create()
     {
-        return view('lab_results.create');
+        $medicals=MedicalRecord::get();
+        return view('backend.lab_results.create')
+            ->with('medicals',$medicals);
     }
 
     public function store(Request $request)
@@ -35,12 +38,16 @@ class LabResultController extends Controller
 
     public function show(LabResult $labResult)
     {
-        return view('lab_results.show', compact('labResult'));
+        return view('backend.lab_results.show', compact('labResult'));
     }
 
-    public function edit(LabResult $labResult)
+    public function edit($id)
     {
-        return view('lab_results.edit', compact('labResult'));
+        $lab=LabResult::findOrFail($id);
+        $medicals=MedicalRecord::get();
+        return view('backend.lab_results.edit')
+            ->with('lab',$lab)
+            ->with('medicals',$medicals);
     }
 
     public function update(Request $request, LabResult $labResult)
