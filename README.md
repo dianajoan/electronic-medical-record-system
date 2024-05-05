@@ -1,4 +1,4 @@
-## Ufanisi website in Laravel
+## Electronic Medical Record (EMR) System in Laravel
 
 ### Set up :
 
@@ -19,4 +19,3 @@
 
 <p style="text-align:center">Thank You so much for your time !!!</p>
 
-# ufanisi
