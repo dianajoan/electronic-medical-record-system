@@ -18,4 +18,3 @@
 12. Visit /admin if you want to access the admin panel. Admin Email/Password: ```admin@gmail.com```/```2222```. 
 
 <p style="text-align:center">Thank You so much for your time !!!</p>
-
