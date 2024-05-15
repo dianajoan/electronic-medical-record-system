@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Edit Lab @endsection
+@section('title') Edit Lab Results @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -9,7 +9,7 @@
           <div class="col-sm-4">
               <div class="page-header float-left">
                   <div class="page-title">
-                      <h1>Edit Lab</h1>
+                      <h1>Edit Lab Results</h1>
                   </div>
               </div>
           </div>
@@ -34,12 +34,22 @@
       <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <strong>Edit Lab</strong>
+                <strong>Edit Lab Results</strong>
             </div>
             <div class="card-body card-block">
               <form method="post" action="{{route('lab_results.update',$lab->id)}}" enctype="multipart/form-data">
                 @csrf 
                 @method('PATCH')
+
+                <div class="form-group">
+                  <label for="patient_id">Patient <span class="text-danger">*</span></label>
+                  <select name="patient_id" class="form-control" required>
+                      <option value="">----</option>
+                      @foreach($patients as $key=>$data)
+                          <option value='{{$data->id}}' {{(($data->id==$lab->patient_id)? 'selected' : '')}}>{{$data->first_name}}</option>
+                      @endforeach
+                  </select>
+                </div>
 
                 <div class="form-group">
                   <label for="medical_record_id">Medical Record <span class="text-danger">*</span></label>

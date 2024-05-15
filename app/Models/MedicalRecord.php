@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class MedicalRecord extends Model
 {
@@ -15,7 +16,8 @@ class MedicalRecord extends Model
         'visit_date',
         'chief_complaint',
         'medical_history',
-        'diagnosis',
+        'primary_diagnosis',
+        'secondary_diagnosis',
         'treatment',
         'status',
     ];
@@ -27,16 +29,6 @@ class MedicalRecord extends Model
         return $this->belongsTo(Patient::class);
     }
 
-    public function labResults()
-    {
-        return $this->hasMany(LabResult::class);
-    }
-
-    public function drugPrescriptions()
-    {
-        return $this->hasMany(DrugPrescription::class);
-    }
-
     public static function countActiveMedical()
     {
         $data = MedicalRecord::where('status', 'active')->count();
@@ -44,5 +36,29 @@ class MedicalRecord extends Model
             return $data;
         }
         return 0;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (Auth::check()) {
+                $model->created_by = Auth::id();
+            }
+        });
+
+        static::updating(function ($model) {
+            if (Auth::check()) {
+                $model->updated_by = Auth::id();
+            }
+        });
+
+        static::deleting(function ($model) {
+            if (Auth::check()) {
+                $model->deleted_by = Auth::id();
+                $model->save();
+            }
+        });
     }
 }

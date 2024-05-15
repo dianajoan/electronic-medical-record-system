@@ -47,9 +47,12 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
 
     // Routes for MedicalRecordController
     Route::resource('/medical_records','MedicalRecordController');
-
+    
     // Routes for LabResultController
     Route::resource('/lab_results','LabResultController');
+
+    // Routes for LabTestController
+    Route::resource('/lab_tests','LabTestController');
 
     // Routes for DrugPrescriptionController
     Route::resource('/drug_prescriptions','DrugPrescriptionController');

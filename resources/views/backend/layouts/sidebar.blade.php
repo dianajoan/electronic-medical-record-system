@@ -21,6 +21,9 @@
                     <a href="{{route('medical_records.index')}}"> <i class="menu-icon fa fa-file"></i>Medical Records </a>
                 </li>
                 <li>
+                    <a href="{{route('lab_tests.index')}}"> <i class="menu-icon fa fa-file"></i>Lab Tests </a>
+                </li>
+                <li>
                     <a href="{{route('lab_results.index')}}"> <i class="menu-icon fa fa-folder"></i>Lab Results </a>
                 </li>
                 <li>

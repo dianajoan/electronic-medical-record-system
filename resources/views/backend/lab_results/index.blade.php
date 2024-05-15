@@ -7,7 +7,7 @@
   <div class="col-sm-4">
       <div class="page-header float-left">
           <div class="page-title">
-              <h1>Lab</h1>
+              <h1>Lab Results</h1>
           </div>
       </div>
   </div>
@@ -39,6 +39,7 @@
                           <thead>
                               <tr>
                                 <th>ID</th>
+                                <th>Patient<th>
                                 <th>Medical Record</th>
                                 <th>Test Name</th>
                                 <th>Result Detail</th>
@@ -51,9 +52,15 @@
                             @foreach($labResults as $lab)
                               @php 
                                 $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$lab->medical_record_id)->get();
+                                $patient=DB::table('patients')->select('first_name')->where('id',$lab->patient_id)->get();
                               @endphp
                               <tr>
                                 <td>{{$lab->id}}</td>
+                                <td>
+                                  @foreach($patient as $data)
+                                    {{$lab->patient->first_name}}
+                                    @endforeach
+                                </td>
                                 <td>
                                   @foreach($medicalRecord as $data)
                                     {{$lab->medicalRecord->visit_date}}

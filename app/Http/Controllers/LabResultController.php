@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LabResult;
 use App\Models\MedicalRecord;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 
 class LabResultController extends Controller
@@ -17,14 +18,17 @@ class LabResultController extends Controller
     public function create()
     {
         $medicals=MedicalRecord::get();
+        $patients=Patient::get();
         return view('backend.lab_results.create')
-            ->with('medicals',$medicals);
+            ->with('medicals',$medicals)
+            ->with('patients',$patients);
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'medical_record_id' => 'required|exists:medical_records,id',
+            'patient_id' => 'required|exists:patients,id',
             'test_name' => 'required',
             'result_details' => 'required',
             'result_date' => 'required|date',
@@ -45,15 +49,18 @@ class LabResultController extends Controller
     {
         $lab=LabResult::findOrFail($id);
         $medicals=MedicalRecord::get();
+        $patients=Patient::get();
         return view('backend.lab_results.edit')
             ->with('lab',$lab)
-            ->with('medicals',$medicals);
+            ->with('medicals',$medicals)
+            ->with('patients',$patients);
     }
 
     public function update(Request $request, LabResult $labResult)
     {
         $request->validate([
             'medical_record_id' => 'required|exists:medical_records,id',
+            'patient_id' => 'required|exists:patients,id',
             'test_name' => 'required',
             'result_details' => 'required',
             'result_date' => 'required|date',

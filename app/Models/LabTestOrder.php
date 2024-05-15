@@ -7,26 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class Patient extends Model
+class LabTestOrder extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'file_number',
-        'first_name',
-        'last_name',
-        'gender',
-        'date_of_birth',
-        'phone_number',
-        'next_of_kin_relationship',
+        'patient_id',
+        'medical_record_id',
+        'lab_test_id',
         'status',
     ];
 
-    protected $dates = ['date_of_birth'];
-
-    public static function countActivePatient()
+    public function patient()
     {
-        $data = Patient::where('status', 'active')->count();
+        return $this->belongsTo(Patient::class);
+    }
+
+    public function medicalRecord()
+    {
+        return $this->belongsTo(MedicalRecord::class);
+    }
+
+    public function labtest()
+    {
+        return $this->belongsTo(LabTest::class);
+    }
+
+    public static function countActiveLabTestOrder()
+    {
+        $data = LabTestOrder::where('status', 'active')->count();
         if ($data) {
             return $data;
         }

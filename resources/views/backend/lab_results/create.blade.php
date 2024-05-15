@@ -9,7 +9,7 @@
           <div class="col-sm-4">
               <div class="page-header float-left">
                   <div class="page-title">
-                      <h1>Add Lab</h1>
+                      <h1>Add Lab Results</h1>
                   </div>
               </div>
           </div>
@@ -39,6 +39,16 @@
             <div class="card-body card-block">
               <form method="post" action="{{route('lab_results.store')}}" enctype="multipart/form-data">
                 {{csrf_field()}}
+
+                <div class="form-group">
+                  <label for="patient_id">Patient<span class="text-danger">*</span></label>
+                  <select name="patient_id" class="form-control" required>
+                      <option value="">----</option>
+                      @foreach($patients as $key=>$data)
+                          <option value='{{$data->id}}'>{{$data->first_name}}</option>
+                      @endforeach
+                  </select>
+                </div>
 
                 <div class="form-group">
                   <label for="medical_record_id">Medical Records<span class="text-danger">*</span></label>
