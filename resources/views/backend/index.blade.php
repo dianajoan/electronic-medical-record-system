@@ -131,7 +131,7 @@
                 <h4 class="mb-0">
                     <span class="count">{{\App\Models\DrugPrescription::countActiveDrug()}}</span>
                 </h4>
-                <p class="text-light">Testimonials</p>
+                <p class="text-light">Drugs</p>
 
                 <div class="chart-wrapper px-3" style="height:70px;" height="70">
                     {{-- <canvas id="widgetChart4"></canvas> --}}
