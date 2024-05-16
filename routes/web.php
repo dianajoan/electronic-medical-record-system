@@ -63,10 +63,15 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
     // Routes for DiagnosisController
     Route::resource('/diagnosis','DiagnosisController');
 
-    // Routes for ClinicController
-    Route::resource('/clinics','ClinicController');
+    // Routes for DrugController
+    Route::resource('/drugs','DrugController');
 
     // Routes for DrugPrescriptionController
     Route::resource('/drug_prescriptions','DrugPrescriptionController');
+
+    // Routes for ClinicController
+    Route::resource('/clinics','ClinicController');
+
+    
     
 });

@@ -36,10 +36,13 @@
                     <a href="{{route('diagnosis.index')}}"> <i class="menu-icon fa fa-folder"></i>Diagnosis </a>
                 </li>
                 <li>
-                    <a href="{{route('clinics.index')}}"> <i class="menu-icon fa fa-folder"></i>Clinics </a>
+                    <a href="{{route('drugs.index')}}"> <i class="menu-icon fa fa-folder"></i>Drugs </a>
                 </li>
                 <li>
                     <a href="{{route('drug_prescriptions.index')}}"> <i class="menu-icon fa fa-user"></i>Drug Prescriptions </a>
+                </li>
+                <li>
+                    <a href="{{route('clinics.index')}}"> <i class="menu-icon fa fa-folder"></i>Clinics </a>
                 </li>
                 <li>
                     <a href="{{route('users.index')}}"> <i class="menu-icon fa fa-user"></i>Users </a>
