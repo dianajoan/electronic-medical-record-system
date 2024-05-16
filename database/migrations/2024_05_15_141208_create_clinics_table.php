@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLabTestOrdersTable extends Migration
+class CreateClinicsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,12 @@ class CreateLabTestOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('lab_test_orders', function (Blueprint $table) {
+        Schema::create('clinics', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('medical_record_id');
-            $table->unsignedBigInteger('patient_id');
-            $table->unsignedBigInteger('lab_test_id');
+            $table->string('name');
             $table->enum('status',['active','inactive'])->default('inactive');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
-
-            $table->foreign('medical_record_id')->references('id')->on('medical_records')->onDelete('cascade');
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
-            $table->foreign('lab_test_id')->references('id')->on('lab_tests')->onDelete('cascade');
 
             // Adding created_by, updated_by, and deleted_by columns
             $table->unsignedBigInteger('created_by')->nullable();
@@ -45,6 +39,6 @@ class CreateLabTestOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lab_test_orders');
+        Schema::dropIfExists('clinics');
     }
 }

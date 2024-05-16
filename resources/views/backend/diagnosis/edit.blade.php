@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Edit Medical @endsection
+@section('title') Edit Diagnosis @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -9,7 +9,7 @@
           <div class="col-sm-4">
               <div class="page-header float-left">
                   <div class="page-title">
-                      <h1>Edit Medical</h1>
+                      <h1>Edit Diagnosis</h1>
                   </div>
               </div>
           </div>
@@ -18,8 +18,8 @@
                   <div class="page-title">
                       <ol class="breadcrumb text-right">
                           <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                          <li><a href="{{ route('medical_records.index') }}">Medical</a></li>
-                          <li class="active">Edit Medical</li>
+                          <li><a href="{{ route('diagnosis.index') }}">Diagnosis</a></li>
+                          <li class="active">Edit Diagnosis</li>
                       </ol>
                   </div>
               </div>
@@ -34,52 +34,44 @@
       <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <strong>Edit Medical</strong>
+                <strong>Edit Diagnosis</strong>
             </div>
             <div class="card-body card-block">
-              <form method="post" action="{{route('medical_records.update',$medical->id)}}" enctype="multipart/form-data">
+              <form method="post" action="{{route('diagnosis.update',$diagnosis->id)}}" enctype="multipart/form-data">
                 @csrf 
                 @method('PATCH')
 
-                    <div class="form-group">
-                      <label for="patient_id">Patient <span class="text-danger">*</span></label>
-                      <select name="patient_id" class="form-control" required>
-                          <option value="">----</option>
-                          @foreach($patients as $key=>$data)
-                              <option value='{{$data->id}}' {{(($data->id==$medical->patient_id)? 'selected' : '')}}>{{$data->first_name}}</option>
-                          @endforeach
-                      </select>
-                    </div>
+                <div class="form-group">
+                  <label for="medical_record_id">Medical Record <span class="text-danger">*</span></label>
+                  <select name="medical_record_id" class="form-control" required>
+                      <option value="">----</option>
+                      @foreach($medicals as $key=>$data)
+                          <option value='{{$data->id}}' {{(($data->id==$drug->medical_record_id)? 'selected' : '')}}>{{$data->visit_date}}</option>
+                      @endforeach
+                  </select>
+                </div>
 
-                    <div class="form-group">
-                        <label for="inputTitle" class="col-form-label">Visit Date <span class="text-danger">*</span></label>
-                        <input id="inputTitle" type="date" name="visit_date" placeholder=""  value="{{$medical->visit_date}}" class="form-control" required>
-                        @error('visit_date')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                      <label for="inputTitle" class="col-form-label">Primary Diagnosis <span class="text-danger">*</span></label>
-                      <input id="inputTitle" type="text" name="primary_diagnosis" placeholder=""  value="{{$medical->primary_diagnosis}}" class="form-control" required>
-                      @error('primary_diagnosis')
-                      <span class="text-danger">{{$message}}</span>
-                      @enderror
-                  </div>
-
-                  <div class="form-group">
-                    <label for="inputTitle" class="col-form-label">Secondary Diagnosis <span class="text-danger">*</span></label>
-                    <input id="inputTitle" type="text" name="secondary_diagnosis" placeholder=""  value="{{$medical->secondary_diagnosis}}" class="form-control" required>
-                    @error('secondary_diagnosis')
+                <div class="form-group">
+                    <label for="inputTitle" class="col-form-label">Name <span class="text-danger">*</span></label>
+                    <input id="inputTitle" type="text" name="name" placeholder=""  value="{{$diagnosis->name}}" class="form-control" required>
+                    @error('name')
                     <span class="text-danger">{{$message}}</span>
                     @enderror
                 </div>
 
+              <div class="form-group">
+                <label for="inputTitle" class="col-form-label">ICD Code <span class="text-danger">*</span></label>
+                <input id="inputTitle" type="text" name="icd_code" placeholder=""  value="{{$diagnosis->icd_code}}" class="form-control" required>
+                @error('icd_code')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+
                 <div class="form-group">
                   <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
                   <select name="status" class="form-control" required>
-                    <option value="active" {{(($medical->status=='active') ? 'selected' : '')}}>Active</option>
-                    <option value="inactive" {{(($medical->status=='inactive') ? 'selected' : '')}}>Inactive</option>
+                    <option value="active" {{(($diagnosis->status=='active') ? 'selected' : '')}}>Active</option>
+                    <option value="inactive" {{(($diagnosis->status=='inactive') ? 'selected' : '')}}>Inactive</option>
                   </select>
                   @error('status')
                   <span class="text-danger">{{$message}}</span>

@@ -26,7 +26,8 @@ class MedicalRecordController extends Controller
         $request->validate([
             'patient_id' => 'required|exists:patients,id',
             'visit_date' => 'required|date',
-            'chief_complaint' => 'required',
+            'primary_diagnosis' => 'required',
+            'secondary_diagnosis' => 'required',
             // Add validation for other fields if necessary
         ]);
 
@@ -55,7 +56,8 @@ class MedicalRecordController extends Controller
         $request->validate([
             'patient_id' => 'required|exists:patients,id',
             'visit_date' => 'required|date',
-            'chief_complaint' => 'required',
+            'primary_diagnosis' => 'required',
+            'secondary_diagnosis' => 'required',
             // Add validation for other fields if necessary
         ]);
 

@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\MedicalRecord;
 use App\Models\LabTest;
-use App\Models\LabTestOrder;
+use App\Models\LabResultOrder;
 
-class LabTestOrderController extends Controller
+class LabResultOrderController extends Controller
 {
     public function index()
     {
-        $labtestorders = LabTestOrder::all();
-        return view('backend.lab_test_orders.index', compact('labtestorders'));
+        $labresultorders = LabResultOrder::all();
+        return view('backend.lab_result_orders.index', compact('labresultorders'));
     }
 
     public function create()
@@ -21,7 +21,7 @@ class LabTestOrderController extends Controller
         $medicals=MedicalRecord::get();
         $patients=Patient::get();
         $labtests=LabTest::get();
-        return view('backend.lab_test_orders.create')
+        return view('backend.lab_result_orders.create')
             ->with('medicals',$medicals)
             ->with('patients',$patients)
             ->with('labtests',$labtests);
@@ -35,31 +35,31 @@ class LabTestOrderController extends Controller
             'lab_test_id' => 'required|exists:lab_tests,id',
         ]);
 
-        LabTestOrder::create($request->all());
+        LabResultOrder::create($request->all());
 
-        return redirect()->route('lab_test_orders.index')
-            ->with('success', 'Lab test order created successfully.');
+        return redirect()->route('lab_result_orders.index')
+            ->with('success', 'Lab result order created successfully.');
     }
 
-    public function show(LabTestOrder $labtestorder)
+    public function show(LabResultOrder $labresultorder)
     {
-        return view('backend.lab_test_orders.show', compact('labtestorder'));
+        return view('backend.lab_result_orders.show', compact('labresultorder'));
     }
 
     public function edit($id)
     {
-        $lab=LabTestOrder::findOrFail($id);
+        $lab=LabResultOrder::findOrFail($id);
         $medicals=MedicalRecord::get();
         $patients=Patient::get();
         $labtests=LabTest::get();
-        return view('backend.lab_test_orders.edit')
+        return view('backend.lab_result_orders.edit')
             ->with('lab',$lab)
             ->with('medicals',$medicals)
             ->with('patients',$patients)
             ->with('labtests',$labtests);
     }
 
-    public function update(Request $request, LabTestOrder $labtestorder)
+    public function update(Request $request, LabResultOrder $labresultorder)
     {
         $request->validate([
             'medical_record_id' => 'required|exists:medical_records,id',
@@ -67,17 +67,17 @@ class LabTestOrderController extends Controller
             'lab_test_id' => 'required|exists:lab_tests,id',
         ]);
 
-        $labtestorder->update($request->all());
+        $labresultorder->update($request->all());
 
-        return redirect()->route('lab_test_orders.index')
-            ->with('success', 'Lab test Order updated successfully');
+        return redirect()->route('lab_result_orders.index')
+            ->with('success', 'Lab result Order updated successfully');
     }
 
-    public function destroy(LabTestOrder $labtestorder)
+    public function destroy(LabResultOrder $labresultorder)
     {
-        $labtestorder->delete();
+        $labresultorder->delete();
 
-        return redirect()->route('lab_test_orders.index')
-            ->with('success', 'Lab test Order deleted successfully');
+        return redirect()->route('lab_result_orders.index')
+            ->with('success', 'Lab result Order deleted successfully');
     }
 }

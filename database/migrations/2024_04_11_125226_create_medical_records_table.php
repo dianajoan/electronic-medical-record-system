@@ -17,14 +17,13 @@ class CreateMedicalRecordsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('patient_id');
             $table->date('visit_date');
-            $table->string('chief_complaint');
-            $table->text('medical_history')->nullable();
             $table->text('primary_diagnosis')->nullable();
             $table->text('secondary_diagnosis')->nullable();
-            $table->text('treatment')->nullable();
             $table->enum('status',['active','inactive'])->default('inactive');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
+
+            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
 
             // Adding created_by, updated_by, and deleted_by columns
             $table->unsignedBigInteger('created_by')->nullable();
@@ -35,8 +34,6 @@ class CreateMedicalRecordsTable extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('deleted_by')->references('id')->on('users')->onDelete('set null');
-            
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
         });
     }
 

@@ -47,12 +47,24 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
 
     // Routes for MedicalRecordController
     Route::resource('/medical_records','MedicalRecordController');
-    
-    // Routes for LabResultController
-    Route::resource('/lab_results','LabResultController');
 
     // Routes for LabTestController
     Route::resource('/lab_tests','LabTestController');
+
+    // Routes for LabResultController
+    Route::resource('/lab_results','LabResultController');
+
+    // Routes for LabTestOrderController
+    Route::resource('/lab_test_orders','LabTestOrderController');
+
+    // Routes for LabResultOrderController
+    Route::resource('/lab_result_orders','LabResultOrderController');
+
+    // Routes for DiagnosisController
+    Route::resource('/diagnosis','DiagnosisController');
+
+    // Routes for ClinicController
+    Route::resource('/clinics','ClinicController');
 
     // Routes for DrugPrescriptionController
     Route::resource('/drug_prescriptions','DrugPrescriptionController');

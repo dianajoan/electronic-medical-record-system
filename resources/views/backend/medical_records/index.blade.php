@@ -41,7 +41,8 @@
                                 <th>ID</th>
                                 <th>Patient</th>
                                 <th>Visit Date</th>
-                                <th>Chief Complaint</th>
+                                <th>Primary Diagnosis</th>
+                                <th>Secondary Diagnosis</th>
                                 <th>Status</th>
                                 <th>Action</th>
                               </tr>
@@ -59,7 +60,8 @@
                                     @endforeach
                                 </td>
                                 <td>{{$medical->visit_date}}</td>
-                                <td>{{$medical->chief_complaint}}</td>
+                                <td>{{$medical->primary_diagnosis}}</td>
+                                <td>{{$medical->secondary_diagnosis}}</td>
                                 <td>
                                     @if($medical->status=='active')
                                         <span class="badge badge-success">{{$medical->status}}</span>

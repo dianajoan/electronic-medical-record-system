@@ -7,28 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class MedicalRecord extends Model
+class Clinic extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'patient_id',
-        'visit_date',
-        'primary_diagnosis',
-        'secondary_diagnosis',
+        'name',
         'status',
     ];
 
-    protected $dates = ['visit_date'];
-
-    public function patient()
+    public static function countActiveClinic()
     {
-        return $this->belongsTo(Patient::class);
-    }
-
-    public static function countActiveMedical()
-    {
-        $data = MedicalRecord::where('status', 'active')->count();
+        $data = Clinic::where('status', 'active')->count();
         if ($data) {
             return $data;
         }
