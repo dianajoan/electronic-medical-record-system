@@ -43,7 +43,6 @@
                                 <th>{{ __('sidebar.user_email') }}</th>
                                 <th>{{ __('sidebar.user_photo') }}</th>
                                 <th>{{ __('sidebar.user_joined_date') }}</th>
-                                <th>{{ __('sidebar.user_role') }}</th>
                                 <th>{{ __('sidebar.user_status') }}</th>
                                 <th>{{ __('sidebar.user_action') }}</th>
                               </tr>
@@ -62,7 +61,6 @@
                                     @endif
                                 </td>
                                 <td>{{(($user->created_at)? $user->created_at->diffForHumans() : '')}}</td>
-                                <td>{{$user->role}}</td>
                                 <td>
                                     @if($user->status=='active')
                                         <span class="badge badge-success">{{$user->status}}</span>

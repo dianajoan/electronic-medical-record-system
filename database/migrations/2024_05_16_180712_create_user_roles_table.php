@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDrugPrescriptionsTable extends Migration
+class CreateUserRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,16 @@ class CreateDrugPrescriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('drug_prescriptions', function (Blueprint $table) {
+        Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('medical_record_id');
-            $table->unsignedBigInteger('patient_id');
-            $table->unsignedBigInteger('drug_id');
-            $table->boolean('stock')->default(false);
-            $table->text('dosage_instructions');
-            $table->dateTime('prescription_date');
-            $table->enum('status',['active','inactive'])->default('inactive');
+            $table->string('name');
+            $table->unsignedBigInteger('user_id');
+            $table->enum('role',['admin','user'])->default('user');
+            $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
 
-            $table->foreign('medical_record_id')->references('id')->on('medical_records')->onDelete('cascade');
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
-            $table->foreign('drug_id')->references('id')->on('drugs')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             // Adding created_by, updated_by, and deleted_by columns
             $table->unsignedBigInteger('created_by')->nullable();
@@ -48,6 +43,6 @@ class CreateDrugPrescriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('drug_prescriptions');
+        Schema::dropIfExists('user_roles');
     }
 }

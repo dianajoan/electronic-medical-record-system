@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Drug @endsection
+@section('title') Drug Prescriptions @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -7,7 +7,7 @@
   <div class="col-sm-4">
       <div class="page-header float-left">
           <div class="page-title">
-              <h1>Drug</h1>
+              <h1>Drug Prescriptions</h1>
           </div>
       </div>
   </div>
@@ -16,8 +16,8 @@
           <div class="page-title">
               <ol class="breadcrumb text-right">
                 <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                <li><a href="{{ route('drug_prescriptions.create')}}"> Add Drug</a></li>
-                <li class="active">Drug</li>
+                <li><a href="{{ route('drug_prescriptions.create')}}"> Add Drug Prescriptions</a></li>
+                <li class="active">Drug Prescriptions</li>
               </ol>
           </div>
       </div>
@@ -31,7 +31,7 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header">
-                      <strong class="card-title">Drug</strong>
+                      <strong class="card-title">Drug Prescriptions</strong>
                   </div>
                   <div class="card-body">
                     @if(count($drugPrescriptions)>0)
@@ -40,40 +40,53 @@
                               <tr>
                                 <th>ID</th>
                                 <th>Medical Records</th>
-                                <th>Instruction</th>
-                                <th> Prescription</th>
+                                <th>Patients</th>
+                                <th>Drugs</th>
+                                <th>Stock</th>
+                                <th>Prescription</th>
                                 <th>Status</th>
                                 <th>Action</th>
                               </tr>
                           </thead>
                           <tbody>
-                            @foreach($drugPrescriptions as $drug)
+                            @foreach($drugPrescriptions as $drugp)
                               @php 
-                                $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$drug->medical_record_id)->get();
+                                $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$drugp->medical_record_id)->get();
+                                $patient=DB::table('patients')->select('first_name')->where('id',$drugp->patient_id)->get();
+                                $drug=DB::table('drugs')->select('name')->where('id',$drugp->drug_id)->get();
                               @endphp
                               <tr>
-                                <td>{{$drug->id}}</td>
+                                <td>{{$drugp->id}}</td>
                                 <td>
                                   @foreach($medicalRecord as $data)
-                                    {{$drug->medicalRecord->visit_date}}
+                                    {{$drugp->medicalRecord->visit_date}}
                                     @endforeach
                                 </td>
-                                <td>{{$drug->drug_name}}</td>
-                                <td>{{$drug->dosage_instructions}}</td>
-                                <td>{{$drug->prescription_date}}</td>
                                 <td>
-                                    @if($drug->status=='active')
-                                        <span class="badge badge-success">{{$drug->status}}</span>
+                                  @foreach($patient as $data)
+                                    {{$drugp->patient->first_name}}
+                                    @endforeach
+                                </td>
+                                <td>
+                                  @foreach($drug as $data)
+                                    {{$drugp->drug->name}}
+                                    @endforeach
+                                </td>
+                                <td>{{(($drugp->stock==1)? 'Yes': 'No')}}</td>
+                                <td>{{$drugp->prescription_date}}</td>
+                                <td>
+                                    @if($drugp->status=='active')
+                                        <span class="badge badge-success">{{$drugp->status}}</span>
                                     @else
-                                        <span class="badge badge-warning">{{$drug->status}}</span>
+                                        <span class="badge badge-warning">{{$drugp->status}}</span>
                                     @endif
                                 </td>
                                 <td>
-                                  <a href="{{route('drug_prescriptions.edit',$drug->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
-                                  <form method="POST" action="{{route('drug_prescriptions.destroy',[$drug->id])}}">
+                                  <a href="{{route('drug_prescriptions.edit',$drugp->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
+                                  <form method="POST" action="{{route('drug_prescriptions.destroy',[$drugp->id])}}">
                                     @csrf 
                                     @method('delete')
-                                        <button class="btn btn-danger btn-sm dltBtn" data-id={{$drug->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
+                                        <button class="btn btn-danger btn-sm dltBtn" data-id={{$drugp->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
                                       </form>
                                 </td>
                               </tr>
@@ -81,7 +94,7 @@
                           </tbody>
                       </table>
                       @else
-                      <h6 class="text-center">No drug found!!! Please add drug</h6>
+                      <h6 class="text-center">No drug Prescription found!!! Please add drug Prescription</h6>
                     @endif
                   </div>
               </div>

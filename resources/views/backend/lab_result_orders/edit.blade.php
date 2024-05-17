@@ -65,7 +65,7 @@
                   <label for="lab_test_id">Lab Tests <span class="text-danger">*</span></label>
                   <select name="lab_test_id" class="form-control" required>
                       <option value="">----</option>
-                      @foreach($lab_tests as $key=>$data)
+                      @foreach($labtests as $key=>$data)
                           <option value='{{$data->id}}' {{(($data->id==$lab->lab_test_id)? 'selected' : '')}}>{{$data->name}}</option>
                       @endforeach
                   </select>

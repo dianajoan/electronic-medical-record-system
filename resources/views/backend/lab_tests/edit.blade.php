@@ -40,6 +40,7 @@
             <form method="post" action="{{route('lab_tests.update',$labtest->id)}}">
               @csrf 
               @method('PATCH')
+
               <div class="form-group">
                 <label for="inputTitle" class="col-form-label">File Number</label>
                 <input id="inputTitle" type="text" name="name" placeholder=""  value="{{$labtest->name}}" class="form-control" required>

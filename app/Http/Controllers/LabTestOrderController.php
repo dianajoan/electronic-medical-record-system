@@ -48,12 +48,12 @@ class LabTestOrderController extends Controller
 
     public function edit($id)
     {
-        $lab=LabTestOrder::findOrFail($id);
+        $labto=LabTestOrder::findOrFail($id);
         $medicals=MedicalRecord::get();
         $patients=Patient::get();
         $labtests=LabTest::get();
         return view('backend.lab_test_orders.edit')
-            ->with('lab',$lab)
+            ->with('labto',$labto)
             ->with('medicals',$medicals)
             ->with('patients',$patients)
             ->with('labtests',$labtests);

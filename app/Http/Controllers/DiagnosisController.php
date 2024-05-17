@@ -27,7 +27,7 @@ class DiagnosisController extends Controller
     {
         $request->validate([
             'medical_record_id' => 'required|exists:medical_records,id',
-            'name' => 'required',
+            'name' => 'required|unique:diagnoses',
             'icd_code' => 'required',
             // Add validation for other fields if necessary
         ]);
@@ -56,7 +56,7 @@ class DiagnosisController extends Controller
     {
         $request->validate([
             'medical_record_id' => 'required|exists:medical_records,id',
-            'name' => 'required',
+            'name' => 'required|unique:diagnoses',
             'icd_code' => 'required',
             // Add validation for other fields if necessary
         ]);

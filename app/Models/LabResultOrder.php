@@ -28,7 +28,7 @@ class LabResultOrder extends Model
         return $this->belongsTo(MedicalRecord::class);
     }
 
-    public function labtest()
+    public function labTest()
     {
         return $this->belongsTo(LabTest::class);
     }

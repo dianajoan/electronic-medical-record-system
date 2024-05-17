@@ -37,7 +37,7 @@
                 <strong>Edit Lab Test Orders</strong>
             </div>
             <div class="card-body card-block">
-              <form method="post" action="{{route('lab_test_orders.update',$lab->id)}}" enctype="multipart/form-data">
+              <form method="post" action="{{route('lab_test_orders.update',$labto->id)}}" enctype="multipart/form-data">
                 @csrf 
                 @method('PATCH')
 
@@ -46,7 +46,7 @@
                   <select name="patient_id" class="form-control" required>
                       <option value="">----</option>
                       @foreach($patients as $key=>$data)
-                          <option value='{{$data->id}}' {{(($data->id==$lab->patient_id)? 'selected' : '')}}>{{$data->first_name}}</option>
+                          <option value='{{$data->id}}' {{(($data->id==$labto->patient_id)? 'selected' : '')}}>{{$data->first_name}}</option>
                       @endforeach
                   </select>
                 </div>
@@ -56,7 +56,7 @@
                   <select name="medical_record_id" class="form-control" required>
                       <option value="">----</option>
                       @foreach($medicals as $key=>$data)
-                          <option value='{{$data->id}}' {{(($data->id==$lab->medical_record_id)? 'selected' : '')}}>{{$data->visit_date}}</option>
+                          <option value='{{$data->id}}' {{(($data->id==$labto->medical_record_id)? 'selected' : '')}}>{{$data->visit_date}}</option>
                       @endforeach
                   </select>
                 </div>
@@ -65,8 +65,8 @@
                   <label for="lab_test_id">Lab Tests <span class="text-danger">*</span></label>
                   <select name="lab_test_id" class="form-control" required>
                       <option value="">----</option>
-                      @foreach($lab_tests as $key=>$data)
-                          <option value='{{$data->id}}' {{(($data->id==$lab->lab_test_id)? 'selected' : '')}}>{{$data->name}}</option>
+                      @foreach($labtests as $key=>$data)
+                          <option value='{{$data->id}}' {{(($data->id==$labto->lab_test_id)? 'selected' : '')}}>{{$data->name}}</option>
                       @endforeach
                   </select>
                 </div>
@@ -74,8 +74,8 @@
                 <div class="form-group">
                   <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
                   <select name="status" class="form-control" required>
-                    <option value="active" {{(($lab->status=='active') ? 'selected' : '')}}>Active</option>
-                    <option value="inactive" {{(($lab->status=='inactive') ? 'selected' : '')}}>Inactive</option>
+                    <option value="active" {{(($labto->status=='active') ? 'selected' : '')}}>Active</option>
+                    <option value="inactive" {{(($labto->status=='inactive') ? 'selected' : '')}}>Inactive</option>
                   </select>
                   @error('status')
                   <span class="text-danger">{{$message}}</span>

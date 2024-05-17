@@ -25,7 +25,7 @@ class DrugController extends Controller
     {
         $request->validate([
             'patient_id' => 'required|exists:patients,id',
-            'name' => 'required',
+            'name' => 'required|unique:drugs',
             'brand_name' => 'required',
             'form' => 'required',
             'code' => 'required',
@@ -56,7 +56,7 @@ class DrugController extends Controller
     {
         $request->validate([
             'patient_id' => 'required|exists:patients,id',
-            'name' => 'required',
+            'name' => 'required|unique:drugs',
             'brand_name' => 'required',
             'form' => 'required',
             'code' => 'required',

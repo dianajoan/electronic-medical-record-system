@@ -6,10 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -43,5 +45,43 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function roles()
+    {
+        return $this->hasMany(UserRole::class);
+    }
+
+    public static function countActiveUser()
+    {
+        $data = User::where('status', 'active')->count();
+        if ($data) {
+            return $data;
+        }
+        return 0;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (Auth::check()) {
+                $model->created_by = Auth::id();
+            }
+        });
+
+        static::updating(function ($model) {
+            if (Auth::check()) {
+                $model->updated_by = Auth::id();
+            }
+        });
+
+        static::deleting(function ($model) {
+            if (Auth::check()) {
+                $model->deleted_by = Auth::id();
+                $model->save();
+            }
+        });
     }
 }

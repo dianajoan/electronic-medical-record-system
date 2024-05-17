@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Edit Drug @endsection
+@section('title') Edit Drug Prescriptions @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -9,7 +9,7 @@
           <div class="col-sm-4">
               <div class="page-header float-left">
                   <div class="page-title">
-                      <h1>Edit Drug</h1>
+                      <h1>Edit Drug Prescriptions</h1>
                   </div>
               </div>
           </div>
@@ -18,8 +18,8 @@
                   <div class="page-title">
                       <ol class="breadcrumb text-right">
                           <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                          <li><a href="{{ route('drug_prescriptions.index') }}">Drug</a></li>
-                          <li class="active">Edit Drug</li>
+                          <li><a href="{{ route('drug_prescriptions.index') }}">Drug Prescriptions</a></li>
+                          <li class="active">Edit Drug Prescriptions</li>
                       </ol>
                   </div>
               </div>
@@ -34,7 +34,7 @@
       <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <strong>Edit DRug</strong>
+                <strong>Edit Drug Prescriptions</strong>
             </div>
             <div class="card-body card-block">
               <form method="post" action="{{route('drug_prescriptions.update',$drug->id)}}" enctype="multipart/form-data">
@@ -42,7 +42,7 @@
                 @method('PATCH')
 
                 <div class="form-group">
-                  <label for="medical_record_id">Medical Record <span class="text-danger">*</span></label>
+                  <label for="medical_record_id">Medical Records <span class="text-danger">*</span></label>
                   <select name="medical_record_id" class="form-control" required>
                       <option value="">----</option>
                       @foreach($medicals as $key=>$data)
@@ -52,11 +52,28 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputTitle" class="col-form-label">Drug Name <span class="text-danger">*</span></label>
-                    <input id="inputTitle" type="text" name="drug_name" placeholder=""  value="{{$drug->drug_name}}" class="form-control" required>
-                    @error('drug_name')
-                    <span class="text-danger">{{$message}}</span>
-                    @enderror
+                  <label for="patient_id">Patients <span class="text-danger">*</span></label>
+                  <select name="patient_id" class="form-control" required>
+                      <option value="">----</option>
+                      @foreach($patients as $key=>$data)
+                          <option value='{{$data->id}}' {{(($data->id==$drug->patient_id)? 'selected' : '')}}>{{$data->first_name}}</option>
+                      @endforeach
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="drug_id">Drugs <span class="text-danger">*</span></label>
+                  <select name="drug_id" class="form-control" required>
+                      <option value="">----</option>
+                      @foreach($drugs as $key=>$data)
+                          <option value='{{$data->id}}' {{(($data->id==$drug->drug_id)? 'selected' : '')}}>{{$data->name}}</option>
+                      @endforeach
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="stock">Stock</label><br>
+                  <input type="checkbox" name='stock' id='stock' value='{{$drug->stock}}' {{(($drug->stock) ? 'checked' : '')}}> Yes                        
                 </div>
 
                 <div class="form-group">

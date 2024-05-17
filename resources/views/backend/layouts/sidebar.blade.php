@@ -45,7 +45,13 @@
                     <a href="{{route('clinics.index')}}"> <i class="menu-icon fa fa-folder"></i>Clinics </a>
                 </li>
                 <li>
+                    <a href="{{route('appointments.index')}}"> <i class="menu-icon fa fa-folder"></i>Appointments </a>
+                </li>
+                <li>
                     <a href="{{route('users.index')}}"> <i class="menu-icon fa fa-user"></i>Users </a>
+                </li>
+                <li>
+                    <a href="{{route('roles.index')}}"> <i class="menu-icon fa fa-user"></i>User Roles </a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->

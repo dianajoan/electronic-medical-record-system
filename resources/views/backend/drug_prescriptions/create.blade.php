@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Add Drug @endsection
+@section('title') Add Drug Prescriptions @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -9,7 +9,7 @@
           <div class="col-sm-4">
               <div class="page-header float-left">
                   <div class="page-title">
-                      <h1>Add Drug</h1>
+                      <h1>Add Drug Prescriptions</h1>
                   </div>
               </div>
           </div>
@@ -18,8 +18,8 @@
                   <div class="page-title">
                       <ol class="breadcrumb text-right">
                           <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                          <li><a href="{{ route('drug_prescriptions.index') }}">Drug</a></li>
-                          <li class="active">Add Drug</li>
+                          <li><a href="{{ route('drug_prescriptions.index') }}">Drug Prescriptions</a></li>
+                          <li class="active">Add Drug Prescriptions</li>
                       </ol>
                   </div>
               </div>
@@ -34,7 +34,7 @@
       <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <strong>Medical</strong>
+                <strong>Prescriptions</strong>
             </div>
             <div class="card-body card-block">
               <form method="post" action="{{route('drug_prescriptions.store')}}" enctype="multipart/form-data">
@@ -51,12 +51,29 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="inputTitle" class="col-form-label">Drug Name<span class="text-danger">*</span></label>
-                  <input id="inputTitle" type="text" name="drug_name" placeholder=""  value="{{old('drug_name')}}" class="form-control" required>
-                  @error('drug_name')
-                  <span class="text-danger">{{$message}}</span>
-                  @enderror
-              </div>
+                  <label for="patient_id">Patients<span class="text-danger">*</span></label>
+                  <select name="patient_id" class="form-control" required>
+                      <option value="">----</option>
+                      @foreach($patients as $key=>$data)
+                          <option value='{{$data->id}}'>{{$data->first_name}}</option>
+                      @endforeach
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="drug_id">Drugs<span class="text-danger">*</span></label>
+                  <select name="drug_id" class="form-control" required>
+                      <option value="">----</option>
+                      @foreach($drugs as $key=>$data)
+                          <option value='{{$data->id}}'>{{$data->name}}</option>
+                      @endforeach
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="stock">Stock</label><br>
+                  <input type="checkbox" name='stock' id='stock' value='1' checked> Yes                        
+                </div>
 
               <div class="form-group">
                 <label for="inputDesc" class="col-form-label">Dosage Instructions</label>

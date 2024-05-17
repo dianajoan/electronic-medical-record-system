@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DrugPrescription;
 use App\Models\MedicalRecord;
+use App\Models\Patient;
+use App\Models\Drug;
 use Illuminate\Http\Request;
 
 class DrugPrescriptionController extends Controller
@@ -17,15 +19,21 @@ class DrugPrescriptionController extends Controller
     public function create()
     {
         $medicals=MedicalRecord::get();
+        $patients=Patient::get();
+        $drugs=Drug::get();
         return view('backend.drug_prescriptions.create')
-            ->with('medicals',$medicals);
+            ->with('medicals',$medicals)
+            ->with('patients',$patients)
+            ->with('drugs',$drugs);
     }
 
     public function store(Request $request)
     {
         $request->validate([
+            'patient_id' => 'required|exists:patients,id',
             'medical_record_id' => 'required|exists:medical_records,id',
-            'drug_name' => 'required',
+            'drug_id' => 'required|exists:drugs,id',
+            'stock'=>'sometimes|in:1',
             'dosage_instructions' => 'required',
             'prescription_date' => 'required|date',
         ]);
@@ -53,8 +61,10 @@ class DrugPrescriptionController extends Controller
     public function update(Request $request, DrugPrescription $drugPrescription)
     {
         $request->validate([
+            'patient_id' => 'required|exists:patients,id',
             'medical_record_id' => 'required|exists:medical_records,id',
-            'drug_name' => 'required',
+            'drug_id' => 'required|exists:drugs,id',
+            'stock'=>'sometimes|in:1',
             'dosage_instructions' => 'required',
             'prescription_date' => 'required|date',
         ]);

@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Edit Drug @endsection
+@section('title') Edit User Role @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -9,7 +9,7 @@
           <div class="col-sm-4">
               <div class="page-header float-left">
                   <div class="page-title">
-                      <h1>Edit Drug</h1>
+                      <h1>Edit User Role</h1>
                   </div>
               </div>
           </div>
@@ -18,8 +18,8 @@
                   <div class="page-title">
                       <ol class="breadcrumb text-right">
                           <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                          <li><a href="{{ route('drugs.index') }}">Drug</a></li>
-                          <li class="active">Edit Drug</li>
+                          <li><a href="{{ route('roles.index') }}">User Roles</a></li>
+                          <li class="active">Edit User Role</li>
                       </ol>
                   </div>
               </div>
@@ -34,65 +34,53 @@
       <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <strong>Edit Drug</strong>
+                <strong>Edit User Role</strong>
             </div>
             <div class="card-body card-block">
-              <form method="post" action="{{route('drugs.update',$drug->id)}}" enctype="multipart/form-data">
+              <form method="post" action="{{route('roles.update',$role->id)}}" enctype="multipart/form-data">
                 @csrf 
                 @method('PATCH')
 
                 <div class="form-group">
-                  <label for="patient_id">Patient <span class="text-danger">*</span></label>
-                  <select name="patient_id" class="form-control" required>
+                  <label for="user_id">User <span class="text-danger">*</span></label>
+                  <select name="user_id" class="form-control" required>
                       <option value="">----</option>
-                      @foreach($patients as $key=>$data)
-                          <option value='{{$data->id}}' {{(($data->id==$drug->patient_id)? 'selected' : '')}}>{{$data->first_name}}</option>
+                      @foreach($users as $key=>$data)
+                          <option value='{{$data->id}}' {{(($data->id==$role->user_id)? 'selected' : '')}}>{{$data->name}}</option>
                       @endforeach
                   </select>
                 </div>
 
                 <div class="form-group">
                     <label for="inputTitle" class="col-form-label">Name <span class="text-danger">*</span></label>
-                    <input id="inputTitle" type="text" name="name" placeholder=""  value="{{$drug->name}}" class="form-control" required>
+                    <input id="inputTitle" type="text" name="name" placeholder=""  value="{{$role->name}}" class="form-control" required>
                     @error('name')
                     <span class="text-danger">{{$message}}</span>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                  <label for="inputTitle" class="col-form-label">Brand Name <span class="text-danger">*</span></label>
-                  <input id="inputTitle" type="text" name="brand_name" placeholder=""  value="{{$drug->brand_name}}" class="form-control" required>
-                  @error('brand_name')
+                  <label for="role" class="col-form-label">Role <span class="text-danger">*</span></label>
+                  <select name="role" class="form-control" required>
+                    <option value="admin" {{(($role->status=='admin') ? 'selected' : '')}}>Admin</option>
+                    <option value="user" {{(($role->status=='user') ? 'selected' : '')}}>User</option>
+                  </select>
+                  @error('role')
                   <span class="text-danger">{{$message}}</span>
                   @enderror
-              </div>
-
-              <div class="form-group">
-                <label for="inputTitle" class="col-form-label">Form <span class="text-danger">*</span></label>
-                <input id="inputTitle" type="text" name="form" placeholder=""  value="{{$drug->form}}" class="form-control" required>
-                @error('form')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div>
-
-              <div class="form-group">
-                <label for="inputTitle" class="col-form-label">Code <span class="text-danger">*</span></label>
-                <input id="inputTitle" type="text" name="code" placeholder=""  value="{{$drug->code}}" class="form-control" required>
-                @error('code')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div>
+                </div>
 
                 <div class="form-group">
                   <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
                   <select name="status" class="form-control" required>
-                    <option value="active" {{(($drug->status=='active') ? 'selected' : '')}}>Active</option>
-                    <option value="inactive" {{(($drug->status=='inactive') ? 'selected' : '')}}>Inactive</option>
+                    <option value="active" {{(($role->status=='active') ? 'selected' : '')}}>Active</option>
+                    <option value="inactive" {{(($role->status=='inactive') ? 'selected' : '')}}>Inactive</option>
                   </select>
                   @error('status')
                   <span class="text-danger">{{$message}}</span>
                   @enderror
                 </div>
+
                 <div class="form-group mb-3">
                   <button class="btn btn-success" type="submit">Update</button>
                 </div>

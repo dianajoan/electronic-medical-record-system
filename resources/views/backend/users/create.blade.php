@@ -56,21 +56,7 @@
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                       </div>
-                      @php 
-                      $roles=DB::table('users')->select('role')->get();
-                      @endphp
-                      <div class="form-group">
-                          <label for="role" class="col-form-label">{{ __('sidebar.user_role') }}</label>
-                          <select name="role" class="form-control" required>
-                              <option value="">-----Select Role-----</option>
-                              @foreach($roles as $role)
-                                  <option value="{{$role->role}}">{{$role->role}}</option>
-                              @endforeach
-                          </select>
-                        @error('role')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                        </div>
+                     
                         <div class="form-group">
                           <label for="status" class="col-form-label">{{ __('sidebar.user_status') }}</label>
                           <select name="status" class="form-control" required>

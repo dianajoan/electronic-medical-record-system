@@ -7,27 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class Drug extends Model
+class UserRole extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'brand_name',
-        'form',
-        'code',
-        'patient_id',
-        'status',
+        'name', 'user_id', 'role', 'status', 'created_by', 'updated_by', 'deleted_by'
     ];
 
-    public function patient()
+    public function user()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(User::class);
     }
 
-    public static function countActiveDrug()
+    public static function countActiveUserRole()
     {
-        $data = Drug::where('status', 'active')->count();
+        $data = UserRole::where('status', 'active')->count();
         if ($data) {
             return $data;
         }

@@ -16,8 +16,8 @@
           <div class="page-title">
               <ol class="breadcrumb text-right">
                 <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                <li><a href="{{ route('lab_results.create')}}"> Add Lab</a></li>
-                <li class="active">Lab</li>
+                <li><a href="{{ route('lab_results.create')}}"> Add Lab Results</a></li>
+                <li class="active">Lab Results</li>
               </ol>
           </div>
       </div>
@@ -31,7 +31,7 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header">
-                      <strong class="card-title">Lab</strong>
+                      <strong class="card-title">Lab Results</strong>
                   </div>
                   <div class="card-body">
                     @if(count($labResults)>0)
@@ -39,10 +39,9 @@
                           <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Patient<th>
+                                <th>Patient</th>
                                 <th>Medical Record</th>
                                 <th>Test Name</th>
-                                <th>Result Detail</th>
                                 <th>Result Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -67,7 +66,6 @@
                                     @endforeach
                                 </td>
                                 <td>{{$lab->test_name}}</td>
-                                <td>{{$lab->result_detail}}</td>
                                 <td>{{$lab->result_date}}</td>
                                 <td>
                                     @if($lab->status=='active')

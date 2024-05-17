@@ -18,21 +18,41 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-use App\Http\Controllers\PatientController;
-use App\Http\Controllers\MedicalRecordController;
-use App\Http\Controllers\LabResultController;
-use App\Http\Controllers\DrugPrescriptionController;
+//Routes for Users
+Route::resource('/users','UsersController');
 
-Route::prefix('v1')->group(function () {
-    // Routes for patients
-    Route::apiResource('patients', PatientController::class);
+//Routes for Users
+Route::resource('/roles','UserRoleController');
 
-    // Routes for medical records
-    Route::apiResource('medical-records', MedicalRecordController::class);
+// Routes for PatientController
+Route::resource('/patients','PatientController');
 
-    // Routes for lab results
-    Route::apiResource('lab-results', LabResultController::class);
+// Routes for MedicalRecordController
+Route::resource('/medical_records','MedicalRecordController');
 
-    // Routes for drug prescriptions
-    Route::apiResource('drug-prescriptions', DrugPrescriptionController::class);
-});
+// Routes for LabTestController
+Route::resource('/lab_tests','LabTestController');
+
+// Routes for LabResultController
+Route::resource('/lab_results','LabResultController');
+
+// Routes for LabTestOrderController
+Route::resource('/lab_test_orders','LabTestOrderController');
+
+// Routes for LabResultOrderController
+Route::resource('/lab_result_orders','LabResultOrderController');
+
+// Routes for DiagnosisController
+Route::resource('/diagnosis','DiagnosisController');
+
+// Routes for DrugController
+Route::resource('/drugs','DrugController');
+
+// Routes for DrugPrescriptionController
+Route::resource('/drug_prescriptions','DrugPrescriptionController');
+
+// Routes for AppointmentController
+Route::resource('/appointments','AppointmentController');
+
+// Routes for ClinicController
+Route::resource('/clinics','ClinicController');

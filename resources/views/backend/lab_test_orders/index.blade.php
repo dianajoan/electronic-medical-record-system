@@ -39,7 +39,7 @@
                           <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Patient<th>
+                                <th>Patient</th>
                                 <th>Medical Record</th>
                                 <th>Lab Test</th>
                                 <th>Status</th>
@@ -47,42 +47,42 @@
                               </tr>
                           </thead>
                           <tbody>
-                            @foreach($labtestorders as $lab)
+                            @foreach($labtestorders as $labto)
                               @php 
-                                $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$lab->medical_record_id)->get();
-                                $patient=DB::table('patients')->select('first_name')->where('id',$lab->patient_id)->get();
-                                $labtest=DB::table('lab_tests')->select('name')->where('id',$lab->lab_test_id)->get();
+                                $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$labto->medical_record_id)->get();
+                                $patient=DB::table('patients')->select('first_name')->where('id',$labto->patient_id)->get();
+                                $labTest=DB::table('lab_tests')->select('name')->where('id',$labto->lab_test_id)->get();
                               @endphp
                               <tr>
-                                <td>{{$lab->id}}</td>
+                                <td>{{$labto->id}}</td>
                                 <td>
                                   @foreach($patient as $data)
-                                    {{$lab->patient->first_name}}
+                                    {{$labto->patient->first_name}}
                                     @endforeach
                                 </td>
                                 <td>
                                   @foreach($medicalRecord as $data)
-                                    {{$lab->medicalRecord->visit_date}}
+                                    {{$labto->medicalRecord->visit_date}}
                                     @endforeach
                                 </td>
                                 <td>
-                                  @foreach($labtest as $data)
-                                    {{$lab->labtest->name}}
+                                  @foreach($labTest as $data)
+                                    {{$labto->labTest->name}}
                                     @endforeach
                                 </td>
                                 <td>
-                                    @if($lab->status=='active')
-                                        <span class="badge badge-success">{{$lab->status}}</span>
+                                    @if($labto->status=='active')
+                                        <span class="badge badge-success">{{$labto->status}}</span>
                                     @else
-                                        <span class="badge badge-warning">{{$lab->status}}</span>
+                                        <span class="badge badge-warning">{{$labto->status}}</span>
                                     @endif
                                 </td>
                                 <td>
-                                  <a href="{{route('lab_test_orders.edit',$lab->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
-                                  <form method="POST" action="{{route('lab_test_orders.destroy',[$lab->id])}}">
+                                  <a href="{{route('lab_test_orders.edit',$labto->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
+                                  <form method="POST" action="{{route('lab_test_orders.destroy',[$labto->id])}}">
                                     @csrf 
                                     @method('delete')
-                                        <button class="btn btn-danger btn-sm dltBtn" data-id={{$lab->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
+                                        <button class="btn btn-danger btn-sm dltBtn" data-id={{$labto->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
                                       </form>
                                 </td>
                               </tr>
@@ -90,7 +90,7 @@
                           </tbody>
                       </table>
                       @else
-                      <h6 class="text-center">No lab results found!!! Please add lab</h6>
+                      <h6 class="text-center">No lab test order found!!! Please add lab test order</h6>
                     @endif
                   </div>
               </div>

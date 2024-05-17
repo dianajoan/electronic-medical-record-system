@@ -1,11 +1,15 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 class UsersTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database Seeders.
      *
      * @return void
      */
@@ -16,14 +20,12 @@ class UsersTableSeeder extends Seeder
                 'name'=>'Admin',
                 'email'=>'admin@gmail.com',
                 'password'=>Hash::make('2222'),
-                'role'=>'admin',
                 'status'=>'active'
             ),
             array(
                 'name'=>'User',
                 'email'=>'user@gmail.com',
                 'password'=>Hash::make('1111'),
-                'role'=>'user',
                 'status'=>'active'
             ),
         );

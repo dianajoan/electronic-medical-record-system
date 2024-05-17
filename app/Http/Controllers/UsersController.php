@@ -41,7 +41,6 @@ class UsersController extends Controller
             'name'=>'string|required|max:100',
             'email'=>'string|required|unique:users',
             'password'=>'string|required',
-            'role'=>'required|in:admin,user',
             'status'=>'required|in:active,inactive',
             'photo'=>'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
@@ -50,7 +49,6 @@ class UsersController extends Controller
         $data['password']=Hash::make($request->password);
         $data['name'] = $request->get('name');
         $data['email'] = $request->get('email');
-        $data['role'] = $request->get('role');
         $data['status'] = $request->get('status');
 
         $path = $request->file('photo')->store('public/images');
@@ -105,7 +103,6 @@ class UsersController extends Controller
         $this->validate($request, [
             'name' => 'string|required|max:100',
             'email' => 'nullable|email|unique:users,email,' . $id,
-            'role' => 'required|in:admin,user',
             'status' => 'required|in:active,inactive',
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
@@ -113,7 +110,6 @@ class UsersController extends Controller
         $data = $request->except(['_token', '_method']); // Exclude unnecessary data
 
         $data['name'] = $request->get('name');
-        $data['role'] = $request->get('role');
         $data['status'] = $request->get('status');
 
         // Handle email update only if it's different and not null

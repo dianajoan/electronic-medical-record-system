@@ -13,65 +13,55 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Http\Controllers\PatientController;
-use App\Http\Controllers\MedicalRecordController;
-use App\Http\Controllers\LabResultController;
-use App\Http\Controllers\DrugPrescriptionController;
-
+// use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['register'=>false]);
-
-Route::get('user/login','FrontendController@login')->name('login.form');
-Route::post('user/login','FrontendController@loginSubmit')->name('login.submit');
-Route::get('user/logout','FrontendController@logout')->name('user.logout');
-
-Route::get('user/register','FrontendController@register')->name('register.form');
-Route::post('user/register','FrontendController@registerSubmit')->name('register.submit');
-// Reset password
-Route::post('password-reset', 'FrontendController@showResetForm')->name('password.reset'); 
+Auth::routes(['register' => false]);
 
 // Backend section start
-
-Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
+Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function() {
     Route::get('/','AdminController@index')->name('admin');
 
-    //Routes for Users
-    Route::resource('/users','UsersController');
+    // Routes for Users
+    Route::resource('/users', 'UsersController');
 
-    // Routes for PatientController
-    Route::resource('/patients','PatientController');
+    // Routes for Roles
+    Route::resource('/roles', 'UserRoleController');
 
-    // Routes for MedicalRecordController
-    Route::resource('/medical_records','MedicalRecordController');
+    // Routes for Patients
+    Route::resource('/patients', 'PatientController');
 
-    // Routes for LabTestController
-    Route::resource('/lab_tests','LabTestController');
+    // Routes for Medical Records
+    Route::resource('/medical_records', 'MedicalRecordController');
 
-    // Routes for LabResultController
-    Route::resource('/lab_results','LabResultController');
+    // Routes for Lab Tests
+    Route::resource('/lab_tests', 'LabTestController');
 
-    // Routes for LabTestOrderController
-    Route::resource('/lab_test_orders','LabTestOrderController');
+    // Routes for Lab Results
+    Route::resource('/lab_results', 'LabResultController');
 
-    // Routes for LabResultOrderController
-    Route::resource('/lab_result_orders','LabResultOrderController');
+    // Routes for Lab Test Orders
+    Route::resource('/lab_test_orders', 'LabTestOrderController');
 
-    // Routes for DiagnosisController
-    Route::resource('/diagnosis','DiagnosisController');
+    // Routes for Lab Result Orders
+    Route::resource('/lab_result_orders', 'LabResultOrderController');
 
-    // Routes for DrugController
-    Route::resource('/drugs','DrugController');
+    // Routes for Diagnoses
+    Route::resource('/diagnosis', 'DiagnosisController');
 
-    // Routes for DrugPrescriptionController
-    Route::resource('/drug_prescriptions','DrugPrescriptionController');
+    // Routes for Drugs
+    Route::resource('/drugs', 'DrugController');
 
-    // Routes for ClinicController
-    Route::resource('/clinics','ClinicController');
+    // Routes for Drug Prescriptions
+    Route::resource('/drug_prescriptions', 'DrugPrescriptionController');
 
-    
-    
+    // Routes for Appointments
+    Route::resource('/appointments', 'AppointmentController');
+
+    // Routes for Clinics
+    Route::resource('/clinics', 'ClinicController');
 });
