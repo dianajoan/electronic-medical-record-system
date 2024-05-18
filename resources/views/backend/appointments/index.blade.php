@@ -34,7 +34,7 @@
                       <strong class="card-title">Appointments</strong>
                   </div>
                   <div class="card-body">
-                    @if(count($appointments)>0)
+                    @if(count($appointments) > 0)
                       <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                           <thead>
                               <tr>
@@ -44,59 +44,40 @@
                                 <th>Clinic</th>
                                 <th>Name</th>
                                 <th>Date</th>
-                                <th>Time</th>
                                 <th>Status</th>
                                 <th>Action</th>
                               </tr>
                           </thead>
                           <tbody>
                             @foreach($appointments as $appointment)
-                              @php 
-                                $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$appointment->medical_record_id)->get();
-                                $patient=DB::table('patients')->select('first_name')->where('id',$appointment->patient_id)->get();
-                                $clinic=DB::table('clinics')->select('name')->where('id',$appointment->clinic_id)->get();
-                              @endphp
                               <tr>
-                                <td>{{$appointment->id}}</td>
+                                <td>{{ $appointment->id }}</td>
+                                <td>{{ $appointment->medicalRecord->visit_date }}</td>
+                                <td>{{ $appointment->patient->first_name }}</td>
+                                <td>{{ $appointment->clinic->name }}</td>
+                                <td>{{ $appointment->name }}</td>
+                                <td>{{ $appointment->appointment_date}}</td>
                                 <td>
-                                  @foreach($medicalRecord as $data)
-                                    {{$appointment->medicalRecord->visit_date}}
-                                    @endforeach
-                                </td>
-                                <td>
-                                  @foreach($patient as $data)
-                                    {{$appointment->patient->first_name}}
-                                    @endforeach
-                                </td>
-                                <td>
-                                  @foreach($clinic as $data)
-                                    {{$appointment->clinic->name}}
-                                    @endforeach
-                                </td>
-                                <td>{{$appointment->name}}</td>
-                                <td>{{$appointment->date}}</td>
-                                <td>{{$appointment->time}}</td>
-                                <td>
-                                    @if($appointment->status=='postponded')
-                                        <span class="badge badge-success">{{$appointment->status}}</span>
+                                    @if($appointment->status == 'postponed')
+                                        <span class="badge badge-success">{{ $appointment->status }}</span>
                                     @else
-                                        <span class="badge badge-warning">{{$appointment->status}}</span>
+                                        <span class="badge badge-warning">{{ $appointment->status }}</span>
                                     @endif
                                 </td>
                                 <td>
-                                  <a href="{{route('appointments.edit',$appointment->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
-                                  <form method="POST" action="{{route('appointments.destroy',[$appointment->id])}}">
+                                  <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
+                                  <form method="POST" action="{{ route('appointments.destroy', $appointment->id) }}" style="display: inline;">
                                     @csrf 
                                     @method('delete')
-                                        <button class="btn btn-danger btn-sm dltBtn" data-id={{$appointment->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
-                                      </form>
+                                    <button type="submit" class="btn btn-danger btn-sm dltBtn" data-id="{{ $appointment->id }}" data-toggle="tooltip" title="Delete" data-placement="bottom"><i class="fa fa-trash"></i></button>
+                                  </form>
                                 </td>
                               </tr>
-                              @endforeach
+                            @endforeach
                           </tbody>
                       </table>
-                      @else
-                      <h6 class="text-center">No appointments found!!! Please add appointment</h6>
+                    @else
+                      <h6 class="text-center">No appointments found! Please add an appointment.</h6>
                     @endif
                   </div>
               </div>
@@ -109,3 +90,22 @@
 
 @endsection
 
+@push('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+<style>
+  .btn {
+    padding: 5px 10px;
+  }
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#bootstrap-data-table-export').DataTable();
+  });
+</script>
+@endpush

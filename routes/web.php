@@ -32,8 +32,17 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function
     // Routes for Roles
     Route::resource('/roles', 'UserRoleController');
 
+    // Routes for Diagnoses
+    Route::resource('/diagnosis', 'DiagnosisController');
+
+    // Routes for General Test
+    Route::resource('/general_tests', 'GeneralTestController');
+
     // Routes for Patients
     Route::resource('/patients', 'PatientController');
+
+    // Routes for Clinics
+    Route::resource('/clinics', 'ClinicController');
 
     // Routes for Medical Records
     Route::resource('/medical_records', 'MedicalRecordController');
@@ -47,12 +56,6 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function
     // Routes for Lab Test Orders
     Route::resource('/lab_test_orders', 'LabTestOrderController');
 
-    // Routes for Lab Result Orders
-    Route::resource('/lab_result_orders', 'LabResultOrderController');
-
-    // Routes for Diagnoses
-    Route::resource('/diagnosis', 'DiagnosisController');
-
     // Routes for Drugs
     Route::resource('/drugs', 'DrugController');
 
@@ -62,6 +65,5 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function
     // Routes for Appointments
     Route::resource('/appointments', 'AppointmentController');
 
-    // Routes for Clinics
-    Route::resource('/clinics', 'ClinicController');
+    
 });

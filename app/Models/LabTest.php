@@ -15,8 +15,20 @@ class LabTest extends Model
     protected $fillable = [
         'name',
         'duration',
+        'medical_record_id',
+        'authenticated_by',
         'status',
     ];
+
+    public function medicalRecord()
+    {
+        return $this->belongsTo(MedicalRecord::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'authenticated_by');
+    }
 
     public static function countActiveLabTest()
     {

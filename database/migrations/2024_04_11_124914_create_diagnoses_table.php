@@ -17,12 +17,9 @@ class CreateDiagnosesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('icd_code');
-            $table->unsignedBigInteger('medical_record_id');
-            $table->enum('status',['active','inactive'])->default('inactive');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
-
-            $table->foreign('medical_record_id')->references('id')->on('medical_records')->onDelete('cascade');
 
             // Adding created_by, updated_by, and deleted_by columns
             $table->unsignedBigInteger('created_by')->nullable();

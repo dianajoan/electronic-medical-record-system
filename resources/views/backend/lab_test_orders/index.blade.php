@@ -39,9 +39,10 @@
                           <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Patient</th>
                                 <th>Medical Record</th>
-                                <th>Lab Test</th>
+                                <th>User</th>
+                                <th>General Test</th>
+                                <th>Test Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                               </tr>
@@ -50,26 +51,27 @@
                             @foreach($labtestorders as $labto)
                               @php 
                                 $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$labto->medical_record_id)->get();
-                                $patient=DB::table('patients')->select('first_name')->where('id',$labto->patient_id)->get();
-                                $labTest=DB::table('lab_tests')->select('name')->where('id',$labto->lab_test_id)->get();
+                                $orderedByUser=DB::table('users')->select('name')->where('id',$labto->ordered_by)->get();
+                                $genTest=DB::table('general_tests')->select('name')->where('id',$labto->general_test_id)->get();
                               @endphp
                               <tr>
                                 <td>{{$labto->id}}</td>
-                                <td>
-                                  @foreach($patient as $data)
-                                    {{$labto->patient->first_name}}
-                                    @endforeach
-                                </td>
                                 <td>
                                   @foreach($medicalRecord as $data)
                                     {{$labto->medicalRecord->visit_date}}
                                     @endforeach
                                 </td>
                                 <td>
-                                  @foreach($labTest as $data)
-                                    {{$labto->labTest->name}}
+                                  @foreach($orderedByUser as $data)
+                                    {{$labto->user->name}}
                                     @endforeach
                                 </td>
+                                <td>
+                                  @foreach($genTest as $data)
+                                    {{$labto->genTest->name}}
+                                    @endforeach
+                                </td>
+                                <td>{{$labto->test_name}}</td>
                                 <td>
                                     @if($labto->status=='active')
                                         <span class="badge badge-success">{{$labto->status}}</span>

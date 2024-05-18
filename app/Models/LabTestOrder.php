@@ -12,26 +12,16 @@ class LabTestOrder extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'patient_id',
         'medical_record_id',
-        'lab_test_id',
+        'ordered_by',
+        'general_test_id',
+        'test_name',
         'status',
     ];
 
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
-    }
-
-    public function medicalRecord()
-    {
-        return $this->belongsTo(MedicalRecord::class);
-    }
-
-    public function labTest()
-    {
-        return $this->belongsTo(LabTest::class);
-    }
+    protected $casts = [
+        'status' => 'string', // Ensure status is cast as string
+    ];
 
     public static function countActiveLabTestOrder()
     {
@@ -40,6 +30,21 @@ class LabTestOrder extends Model
             return $data;
         }
         return 0;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'ordered_by', 'id');
+    }
+
+    public function medicalRecord()
+    {
+        return $this->belongsTo(MedicalRecord::class, 'medical_record_id', 'id');
+    }
+
+    public function genTest()
+    {
+        return $this->belongsTo(LabTest::class, 'general_test_id', 'id');
     }
 
     protected static function boot()
@@ -64,5 +69,11 @@ class LabTestOrder extends Model
                 $model->save();
             }
         });
+    }
+
+    // Get the user who ordered the lab test order
+    public function orderedByUser()
+    {
+        return $this->belongsTo(User::class, 'ordered_by', 'id');
     }
 }

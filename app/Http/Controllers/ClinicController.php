@@ -48,7 +48,7 @@ class ClinicController extends Controller
 
         $clinic->update($request->all());
 
-        return redirect()->route('lab_tests.index')
+        return redirect()->route('clinics.index')
             ->with('success', 'Clinic updated successfully');
     }
 

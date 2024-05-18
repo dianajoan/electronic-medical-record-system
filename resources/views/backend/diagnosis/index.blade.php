@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title') Diagnosis @endsection
+@section('title') Diagnoses @endsection
 @section('main-content')
 @include('backend.layouts.notification')
 
@@ -7,7 +7,7 @@
   <div class="col-sm-4">
       <div class="page-header float-left">
           <div class="page-title">
-              <h1>Diagnosis</h1>
+              <h1>Diagnoses</h1>
           </div>
       </div>
   </div>
@@ -16,8 +16,8 @@
           <div class="page-title">
               <ol class="breadcrumb text-right">
                 <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                <li><a href="{{ route('diagnosis.create')}}"> Add Diagnosis</a></li>
-                <li class="active">Diagnosis</li>
+                <li><a href="{{ route('diagnosis.create')}}"> Add Diagnoses</a></li>
+                <li class="active">Diagnoses</li>
               </ol>
           </div>
       </div>
@@ -31,7 +31,7 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header">
-                      <strong class="card-title">Diagnosis</strong>
+                      <strong class="card-title">Diagnoses</strong>
                   </div>
                   <div class="card-body">
                     @if(count($diagnosis)>0)
@@ -39,7 +39,6 @@
                           <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Medical Record</th>
                                 <th>Name</th>
                                 <th>ICD Code</th>
                                 <th>Status</th>
@@ -48,16 +47,8 @@
                           </thead>
                           <tbody>
                             @foreach($diagnosis as $diag)
-                              @php 
-                                $medicalRecord=DB::table('medical_records')->select('visit_date')->where('id',$diag->medical_record_id)->get();
-                              @endphp
                               <tr>
                                 <td>{{$diag->id}}</td>
-                                <td>
-                                  @foreach($medicalRecord as $data)
-                                    {{$diag->medicalRecord->visit_date}}
-                                    @endforeach
-                                </td>
                                 <td>{{$diag->name}}</td>
                                 <td>{{$diag->icd_code}}</td>
                                 <td>

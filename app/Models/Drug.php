@@ -16,13 +16,20 @@ class Drug extends Model
         'brand_name',
         'form',
         'code',
-        'patient_id',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public function patient()
     {
         return $this->belongsTo(Patient::class);
+    }
+
+    public function prescriptions()
+    {
+        return $this->hasMany(DrugPrescription::class);
     }
 
     public static function countActiveDrug()

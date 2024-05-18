@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Drug;
-use App\Models\Patient;
 
 class DrugController extends Controller
 {
@@ -16,15 +15,12 @@ class DrugController extends Controller
 
     public function create()
     {
-        $patients=Patient::get();
-        return view('backend.drugs.create')
-            ->with('patients',$patients);
+        return view('backend.drugs.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'patient_id' => 'required|exists:patients,id',
             'name' => 'required|unique:drugs',
             'brand_name' => 'required',
             'form' => 'required',
@@ -46,16 +42,13 @@ class DrugController extends Controller
     public function edit($id)
     {
         $drug=Drug::findOrFail($id);
-        $patients=Patient::get();
         return view('backend.drugs.edit')
-            ->with('drug',$drug)
-            ->with('patients',$patients);
+            ->with('drug',$drug);
     }
 
     public function update(Request $request, Drug $drug)
     {
         $request->validate([
-            'patient_id' => 'required|exists:patients,id',
             'name' => 'required|unique:drugs',
             'brand_name' => 'required',
             'form' => 'required',

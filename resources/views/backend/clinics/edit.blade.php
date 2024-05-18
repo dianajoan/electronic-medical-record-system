@@ -40,6 +40,18 @@
             <form method="post" action="{{route('clinics.update',$clinic->id)}}">
               @csrf 
               @method('PATCH')
+
+              @if ($errors->any())
+                  <div class="alert alert-danger">
+                      <ul>
+                          @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                          @endforeach
+                      </ul>
+                  </div>
+              @endif
+
+
               <div class="form-group">
                 <label for="inputTitle" class="col-form-label">Name</label>
                 <input id="inputTitle" type="text" name="name" placeholder=""  value="{{$clinic->name}}" class="form-control" required>

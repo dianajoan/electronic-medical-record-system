@@ -14,13 +14,20 @@ class Diagnosis extends Model
     protected $fillable = [
         'name',
         'icd_code',
-        'medical_record_id',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
-    public function medicalRecord()
+    public function medicalRecords()
     {
-        return $this->belongsTo(MedicalRecord::class);
+        return $this->hasMany(MedicalRecord::class, 'primary_diagnosis_id');
+    }
+
+    public function medicalRecordsSecondary()
+    {
+        return $this->belongsToMany(MedicalRecord::class, 'medical_record_secondary_diagnoses');
     }
 
     public static function countActiveDiagnosis()

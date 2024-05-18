@@ -41,15 +41,16 @@
                 @csrf 
                 @method('PATCH')
 
-                <div class="form-group">
-                  <label for="medical_record_id">Medical Record <span class="text-danger">*</span></label>
-                  <select name="medical_record_id" class="form-control" required>
-                      <option value="">----</option>
-                      @foreach($medicals as $key=>$data)
-                          <option value='{{$data->id}}' {{(($data->id==$drug->medical_record_id)? 'selected' : '')}}>{{$data->visit_date}}</option>
-                      @endforeach
-                  </select>
-                </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
 
                 <div class="form-group">
                     <label for="inputTitle" class="col-form-label">Name <span class="text-danger">*</span></label>
@@ -77,6 +78,7 @@
                   <span class="text-danger">{{$message}}</span>
                   @enderror
                 </div>
+                
                 <div class="form-group mb-3">
                   <button class="btn btn-success" type="submit">Update</button>
                 </div>

@@ -15,17 +15,16 @@ class CreateLabResultsTable extends Migration
     {
         Schema::create('lab_results', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('medical_record_id');
-            $table->unsignedBigInteger('patient_id');
-            $table->string('test_name');
+          $table->unsignedBigInteger('lab_test_order_id');  
+            $table->unsignedBigInteger('authenticated_by');
             $table->text('result_details');
             $table->dateTime('result_date');
             $table->enum('status',['active','inactive'])->default('inactive');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
 
-            $table->foreign('medical_record_id')->references('id')->on('medical_records')->onDelete('cascade');
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
+            $table->foreign('lab_test_order_id')->references('id')->on('lab_test_orders')->onDelete('cascade');
+            $table->foreign('authenticated_by')->references('id')->on('users')->onDelete('cascade');
 
             // Adding created_by, updated_by, and deleted_by columns
             $table->unsignedBigInteger('created_by')->nullable();

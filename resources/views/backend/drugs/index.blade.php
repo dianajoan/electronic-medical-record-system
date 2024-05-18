@@ -39,7 +39,6 @@
                           <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Patients</th>
                                 <th>Name</th>
                                 <th>Brand Name</th>
                                 <th>Form</th>
@@ -50,16 +49,8 @@
                           </thead>
                           <tbody>
                             @foreach($drugs as $drug)
-                              @php 
-                                $patient=DB::table('patients')->select('first_name')->where('id',$drug->patient_id)->get();
-                              @endphp
                               <tr>
                                 <td>{{$drug->id}}</td>
-                                <td>
-                                  @foreach($patient as $data)
-                                    {{$drug->patient->first_name}}
-                                    @endforeach
-                                </td>
                                 <td>{{$drug->name}}</td>
                                 <td>{{$drug->brand_name}}</td>
                                 <td>{{$drug->form}}</td>

@@ -17,7 +17,7 @@
               <div class="page-header float-right">
                   <div class="page-title">
                       <ol class="breadcrumb text-right">
-                          <li><a href="{{ route('admin')}}">Dashboard</a></li>
+                          <li><a href="{{ route('admin') }}">Dashboard</a></li>
                           <li><a href="{{ route('lab_results.index') }}">Lab</a></li>
                           <li class="active">Add Lab</li>
                       </ol>
@@ -37,53 +37,61 @@
                 <strong>Lab</strong>
             </div>
             <div class="card-body card-block">
-              <form method="post" action="{{route('lab_results.store')}}" enctype="multipart/form-data">
-                {{csrf_field()}}
+              <form method="post" action="{{ route('lab_results.store') }}" enctype="multipart/form-data">
+                {{ csrf_field() }}
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <div class="form-group">
-                  <label for="patient_id">Patient<span class="text-danger">*</span></label>
-                  <select name="patient_id" class="form-control" required>
+                  <label for="lab_test_order_id">Lab Test Order<span class="text-danger">*</span></label>
+                  <select name="lab_test_order_id" class="form-control" required>
                       <option value="">----</option>
-                      @foreach($patients as $key=>$data)
-                          <option value='{{$data->id}}'>{{$data->first_name}}</option>
+                      @foreach($labTestOrders as $key => $data)
+                          <option value="{{ $data->id }}">{{ $data->test_name }}</option>
                       @endforeach
                   </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="medical_record_id">Medical Records<span class="text-danger">*</span></label>
-                  <select name="medical_record_id" class="form-control" required>
-                      <option value="">----</option>
-                      @foreach($medicals as $key=>$data)
-                          <option value='{{$data->id}}'>{{$data->visit_date}}</option>
-                      @endforeach
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="inputTitle" class="col-form-label">Test Name <span class="text-danger">*</span></label>
-                  <input id="inputTitle" type="text" name="test_name" placeholder=""  value="{{old('test_name')}}" class="form-control" required>
-                  @error('test_name')
-                  <span class="text-danger">{{$message}}</span>
+                  @error('lab_test_order_id')
+                  <span class="text-danger">{{ $message }}</span>
                   @enderror
-              </div>
+                </div>
 
-              <div class="form-group">
-                <label for="inputDesc" class="col-form-label">Result Details</label>
-                <textarea class="form-control" id="result_details" name="result_details" required>{{old('result_details')}}</textarea>
-                @error('result_details')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-              </div>
+                <div class="form-group">
+                  <label for="authenticated_by">Authenticated By<span class="text-danger">*</span></label>
+                  <select name="authenticated_by" class="form-control" required>
+                      <option value="">----</option>
+                      @foreach($users as $key => $data)
+                          <option value="{{ $data->id }}">{{ $data->name }}</option>
+                      @endforeach
+                  </select>
+                  @error('authenticated_by')
+                  <span class="text-danger">{{ $message }}</span>
+                  @enderror
+                </div>
 
-              <div class="form-group">
-                <label for="inputTitle" class="col-form-label">Result Date <span class="text-danger">*</span></label>
-                <input id="inputTitle" type="date" name="result_date" placeholder=""  value="{{old('result_date')}}" class="form-control" required>
-                @error('result_date')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div>
-                
+                <div class="form-group">
+                  <label for="result_details" class="col-form-label">Result Details</label>
+                  <textarea class="form-control" id="result_details" name="result_details" required>{{ old('result_details') }}</textarea>
+                  @error('result_details')
+                  <span class="text-danger">{{ $message }}</span>
+                  @enderror
+                </div>
+
+                <div class="form-group">
+                  <label for="result_date" class="col-form-label">Result Date <span class="text-danger">*</span></label>
+                  <input id="result_date" type="datetime-local" name="result_date" value="{{ old('result_date') }}" class="form-control" required>
+                  @error('result_date')
+                  <span class="text-danger">{{ $message }}</span>
+                  @enderror
+                </div>
+
                 <div class="form-group">
                   <label for="status" class="col-form-label">Status<span class="text-danger">*</span></label>
                   <select name="status" class="form-control" required>
@@ -91,9 +99,10 @@
                       <option value="inactive">Inactive</option>
                   </select>
                   @error('status')
-                  <span class="text-danger">{{$message}}</span>
+                  <span class="text-danger">{{ $message }}</span>
                   @enderror
                 </div>
+
                 <div class="form-group mb-3">
                   <button type="reset" class="btn btn-warning">Reset</button>
                   <button class="btn btn-success" type="submit">Submit</button>
@@ -131,8 +140,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#comment').summernote({
-            placeholder: "Write detail Message.....",
+        $('#result_details').summernote({
+            placeholder: "Write detailed results...",
             tabsize: 2,
             height: 150
         });

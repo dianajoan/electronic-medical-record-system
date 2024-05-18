@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLabTestsTable extends Migration
+class CreateGeneralTestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateLabTestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('lab_tests', function (Blueprint $table) {
+        Schema::create('general_tests', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('duration');
             $table->enum('status',['active','inactive'])->default('inactive');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
@@ -40,6 +39,6 @@ class CreateLabTestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lab_tests');
+        Schema::dropIfExists('general_tests');
     }
 }

@@ -12,33 +12,31 @@ class LabResult extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'medical_record_id',
-        'patient_id',
-        'test_name',
+        'lab_test_order_id',
+        'authenticated_by',
         'result_details',
         'result_date',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
-    protected $dates = ['result_date'];
+    protected $dates = ['result_date', 'deleted_at'];
 
-    public function medicalRecord()
+    public function labTestOrder()
     {
-        return $this->belongsTo(MedicalRecord::class);
+        return $this->belongsTo(LabTestOrder::class);
     }
 
-    public function patient()
+    public function authenticatedBy()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(User::class, 'authenticated_by');
     }
 
     public static function countActiveLab()
     {
-        $data = LabResult::where('status', 'active')->count();
-        if ($data) {
-            return $data;
-        }
-        return 0;
+        return LabResult::where('status', 'active')->count() ?? 0;
     }
 
     protected static function boot()

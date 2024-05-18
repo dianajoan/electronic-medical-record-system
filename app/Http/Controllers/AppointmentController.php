@@ -7,6 +7,8 @@ use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\MedicalRecord;
 use App\Models\Clinic;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
@@ -18,29 +20,28 @@ class AppointmentController extends Controller
 
     public function create()
     {
-        $patients=Patient::get();
-        $medicals=MedicalRecord::get();
-        $clinics=Clinic::get();
-        return view('backend.appointments.create')
-            ->with('patients',$patients)
-            ->with('medicals',$medicals)
-            ->with('clinics',$clinics);
+        $patients = Patient::all();
+        $medicalRecords = MedicalRecord::all();
+        $clinics = Clinic::all();
+        $users = User::all();
+        return view('backend.appointments.create', compact('patients', 'medicalRecords', 'clinics', 'users'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
+            'name' => 'required|string|max:255',
+            'clinical_notes' => 'nullable|string',
+            'appointment_date' => 'required|date',
             'patient_id' => 'required|exists:patients,id',
             'medical_record_id' => 'required|exists:medical_records,id',
             'clinic_id' => 'required|exists:clinics,id',
-            'name' => 'required',
-            'date' => 'required|date',
-            'time' => 'required',
-            'status' => 'required',
-            // Add validation for other fields if necessary
+            'status' => 'required|string|max:255',
         ]);
 
-        Appointment::create($request->all());
+        $appointment = new Appointment($request->all());
+        $appointment->authenticated_by = Auth::id();
+        $appointment->save();
 
         return redirect()->route('appointments.index')
             ->with('success', 'Appointment created successfully.');
@@ -51,36 +52,33 @@ class AppointmentController extends Controller
         return view('backend.appointments.show', compact('appointment'));
     }
 
-    public function edit($id)
+    public function edit(Appointment $appointment)
     {
-        $appointment=Appointment::findOrFail($id);
-        $patients=Patient::get();
-        $medicals=MedicalRecord::get();
-        $clinics=Clinic::get();
-        return view('backend.appointments.edit')
-        ->with('appointment',$appointment)
-        ->with('patients',$patients)
-        ->with('medicals',$medicals)
-        ->with('clinics',$clinics);
+        $patients = Patient::all();
+        $medicalRecords = MedicalRecord::all();
+        $clinics = Clinic::all();
+        $users = User::all();
+        return view('backend.appointments.edit', compact('appointment', 'patients', 'medicalRecords', 'clinics', 'users'));
     }
 
     public function update(Request $request, Appointment $appointment)
     {
         $request->validate([
+            'name' => 'required|string|max:255',
+            'clinical_notes' => 'nullable|string',
+            'appointment_date' => 'required|date',
             'patient_id' => 'required|exists:patients,id',
             'medical_record_id' => 'required|exists:medical_records,id',
             'clinic_id' => 'required|exists:clinics,id',
-            'name' => 'required',
-            'date' => 'required|date',
-            'time' => 'required',
-            'status' => 'required',
-            // Add validation for other fields if necessary
+            'status' => 'required|string|max:255',
         ]);
 
         $appointment->update($request->all());
+        $appointment->authenticated_by = Auth::id();
+        $appointment->save();
 
         return redirect()->route('appointments.index')
-            ->with('success', 'Appointment updated successfully');
+            ->with('success', 'Appointment updated successfully.');
     }
 
     public function destroy(Appointment $appointment)
@@ -88,6 +86,6 @@ class AppointmentController extends Controller
         $appointment->delete();
 
         return redirect()->route('appointments.index')
-            ->with('success', 'Appointment deleted successfully');
+            ->with('success', 'Appointment deleted successfully.');
     }
 }

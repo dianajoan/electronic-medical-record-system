@@ -42,6 +42,8 @@
                                 <th>Name</th>
                                 <th>Gender</th>
                                 <th>Phone</th>
+                                <th>Next of Kin Name</th>
+                                <th>Phone</th>
                                 <th>Status</th>
                                 <th>Action</th>
                               </tr>
@@ -51,8 +53,15 @@
                               <tr>
                                 <td>{{$data->id}}</td>
                                 <td>{{$data->first_name}} - {{$data->last_name}}</td>
-                                <td>{{$data->gender}}</td>
+                                <td>
+                                    @if($data->gender=='male')
+                                        <span class="badge badge-success">{{$data->gender}}</span>
+                                    @else
+                                        <span class="badge badge-warning">{{$data->gender}}</span>
+                                    @endif
+                                </td>
                                 <td>{{$data->phone_number}}</td>
+                                <td>{{$data->next_of_kin_name}}</td>
                                 <td>
                                     @if($data->status=='active')
                                         <span class="badge badge-success">{{$data->status}}</span>

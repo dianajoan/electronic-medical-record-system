@@ -40,6 +40,17 @@
             <form method="post" action="{{route('patients.update',$patient->id)}}">
               @csrf 
               @method('PATCH')
+
+              @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              @endif
+
               <div class="form-group">
                 <label for="inputTitle" class="col-form-label">File Number</label>
                 <input id="inputTitle" type="text" name="file_number" placeholder=""  value="{{$patient->file_number}}" class="form-control" required>
@@ -66,7 +77,10 @@
 
               <div class="form-group">
                 <label for="inputTitle" class="col-form-label">Gender</label>
-                <input id="inputTitle" type="text" name="gender" placeholder=""  value="{{$patient->gender}}" class="form-control" required>
+                <select name="gender" class="form-control">
+                  <option value="male" {{(($patient->gender=='male') ? 'selected' : '')}}>Male</option>
+                  <option value="female" {{(($patient->gender=='female') ? 'selected' : '')}}>Female</option>
+                </select>
                 @error('gender')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
@@ -89,9 +103,25 @@
               </div>
 
               <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Next of Kin Name</label>
+                <input id="inputTitle" type="text" name="next_of_kin_name" placeholder=""  value="{{$patient->next_of_kin_name}}" class="form-control" required>
+                @error('next_of_kin_name')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+              </div>
+
+              <div class="form-group">
                 <label for="inputTitle" class="col-form-label">Next of Kin Relationhip</label>
                 <input id="inputTitle" type="text" name="next_of_kin_relationship" placeholder=""  value="{{$patient->next_of_kin_relationship}}" class="form-control" required>
                 @error('next_of_kin_relationship')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+              </div>
+
+              <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Next of Kin Phone Number</label>
+                <input id="inputTitle" type="text" name="next_of_kin_phone_number" placeholder=""  value="{{$patient->next_of_kin_phone_number}}" class="form-control" required>
+                @error('next_of_kin_phone_number')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
               </div>

@@ -18,11 +18,26 @@ class Patient extends Model
         'gender',
         'date_of_birth',
         'phone_number',
+        'next_of_kin_name',
         'next_of_kin_relationship',
+        'next_of_kin_phone_number',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $dates = ['date_of_birth'];
+
+    public function medicalRecords()
+    {
+        return $this->hasMany(MedicalRecord::class);
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 
     public static function countActivePatient()
     {

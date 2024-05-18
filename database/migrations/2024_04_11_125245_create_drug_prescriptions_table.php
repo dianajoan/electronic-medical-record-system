@@ -16,7 +16,6 @@ class CreateDrugPrescriptionsTable extends Migration
         Schema::create('drug_prescriptions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('medical_record_id');
-            $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('drug_id');
             $table->boolean('stock')->default(false);
             $table->text('dosage_instructions');
@@ -26,7 +25,6 @@ class CreateDrugPrescriptionsTable extends Migration
             $table->softDeletes(); // Enables soft deletes
 
             $table->foreign('medical_record_id')->references('id')->on('medical_records')->onDelete('cascade');
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->foreign('drug_id')->references('id')->on('drugs')->onDelete('cascade');
 
             // Adding created_by, updated_by, and deleted_by columns

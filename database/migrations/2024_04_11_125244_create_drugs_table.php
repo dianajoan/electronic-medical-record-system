@@ -18,13 +18,10 @@ class CreateDrugsTable extends Migration
             $table->string('name');
             $table->string('brand_name');
             $table->string('form');
-            $table->string('code');
-            $table->unsignedBigInteger('patient_id');
+            $table->string('code')->unique();
             $table->enum('status',['active','inactive'])->default('inactive');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
-
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
 
             // Adding created_by, updated_by, and deleted_by columns
             $table->unsignedBigInteger('created_by')->nullable();

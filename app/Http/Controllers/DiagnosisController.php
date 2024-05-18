@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Diagnosis;
-use App\Models\MedicalRecord;
 
 class DiagnosisController extends Controller
 {
@@ -16,17 +15,14 @@ class DiagnosisController extends Controller
 
     public function create()
     {
-        $medicals=MedicalRecord::get();
         $diagnosis=Diagnosis::get();
         return view('backend.diagnosis.create')
-            ->with('medicals',$medicals)
             ->with('diagnosis',$diagnosis);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'medical_record_id' => 'required|exists:medical_records,id',
             'name' => 'required|unique:diagnoses',
             'icd_code' => 'required',
             // Add validation for other fields if necessary
@@ -38,7 +34,7 @@ class DiagnosisController extends Controller
             ->with('success', 'Diagnosis created successfully.');
     }
 
-    public function show(MedicalRecord $medicalRecord)
+    public function show(Diagnosis $diagnosis)
     {
         return view('backend.diagnosis.show', compact('diagnosis'));
     }
@@ -46,16 +42,13 @@ class DiagnosisController extends Controller
     public function edit($id)
     {
         $diagnosis=Diagnosis::findOrFail($id);
-        $medicals=MedicalRecord::get();
         return view('backend.diagnosis.edit')
-            ->with('diagnosis',$diagnosis)
-            ->with('medicals',$medicals);
+            ->with('diagnosis',$diagnosis);
     }
 
     public function update(Request $request, Diagnosis $diagnosis)
     {
         $request->validate([
-            'medical_record_id' => 'required|exists:medical_records,id',
             'name' => 'required|unique:diagnoses',
             'icd_code' => 'required',
             // Add validation for other fields if necessary

@@ -40,15 +40,16 @@
               <form method="post" action="{{route('drugs.store')}}" enctype="multipart/form-data">
                 {{csrf_field()}}
 
-                      <div class="form-group">
-                        <label for="patient_id">Patients<span class="text-danger">*</span></label>
-                        <select name="patient_id" class="form-control" required>
-                            <option value="">----</option>
-                            @foreach($patients as $key=>$data)
-                                <option value='{{$data->id}}'>{{$data->first_name}}</option>
-                            @endforeach
-                        </select>
-                      </div>
+                @if ($errors->any())
+                  <div class="alert alert-danger">
+                      <ul>
+                          @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                          @endforeach
+                      </ul>
+                  </div>
+                @endif
+
 
                       <div class="form-group">
                         <label for="inputTitle" class="col-form-label">Name <span class="text-danger">*</span></label>

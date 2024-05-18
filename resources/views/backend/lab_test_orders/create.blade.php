@@ -40,34 +40,67 @@
               <form method="post" action="{{route('lab_test_orders.store')}}" enctype="multipart/form-data">
                 {{csrf_field()}}
 
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              @endif
+
                 <div class="form-group">
-                  <label for="patient_id">Patient<span class="text-danger">*</span></label>
-                  <select name="patient_id" class="form-control" required>
-                      <option value="">----</option>
-                      @foreach($patients as $key=>$data)
-                          <option value='{{$data->id}}'>{{$data->first_name}}</option>
-                      @endforeach
+                  <label for="medical_record_id" class="col-form-label">Medical Record</label>
+                  <select id="medical_record_id" name="medical_record_id" class="form-control" required>
+                    <option value="">Select Medical Record</option>
+                    @foreach($medicalRecords as $record)
+                      <option value="{{ $record->id }}" {{ old('medical_record_id') == $record->id ? 'selected' : '' }}>
+                        {{ $record->symptoms }}
+                      </option>
+                    @endforeach
                   </select>
+                  @error('medical_record_id')
+                  <span class="text-danger">{{ $message }}</span>
+                  @enderror
+                </div>
+  
+                <div class="form-group">
+                  <label for="ordered_by" class="col-form-label">Ordered By</label>
+                  <select id="ordered_by" name="ordered_by" class="form-control" required>
+                    <option value="">Select User</option>
+                    @foreach($users as $user)
+                      <option value="{{ $user->id }}" {{ old('ordered_by') == $user->id ? 'selected' : '' }}>
+                        {{ $user->name }}
+                      </option>
+                    @endforeach
+                  </select>
+                  @error('ordered_by')
+                  <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
 
                 <div class="form-group">
-                  <label for="medical_record_id">Medical Records<span class="text-danger">*</span></label>
-                  <select name="medical_record_id" class="form-control" required>
-                      <option value="">----</option>
-                      @foreach($medicals as $key=>$data)
-                          <option value='{{$data->id}}'>{{$data->visit_date}}</option>
-                      @endforeach
+                  <label for="general_test_id" class="col-form-label">General Test</label>
+                  <select id="general_test_id" name="general_test_id" class="form-control" required>
+                    <option value="">Select Medical Record</option>
+                    @foreach($genTests as $genTest)
+                      <option value="{{ $genTest->id }}" {{ old('general_test_id') == $genTest->id ? 'selected' : '' }}>
+                        {{ $genTest->name }}
+                      </option>
+                    @endforeach
                   </select>
+                  @error('general_test_id')
+                  <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
 
                 <div class="form-group">
-                  <label for="lab_test_id">Lab Tests<span class="text-danger">*</span></label>
-                  <select name="lab_test_id" class="form-control" required>
-                      <option value="">----</option>
-                      @foreach($labtests as $key=>$data)
-                          <option value='{{$data->id}}'>{{$data->name}}</option>
-                      @endforeach
-                  </select>
+                  <label for="test_name" class="col-form-label">Test Name</label>
+                  <textarea class="form-control" id="test_name" name="test_name" required>{{ old('test_name') }}</textarea>
+                  @error('test_name')
+                  <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
                 
                 <div class="form-group">

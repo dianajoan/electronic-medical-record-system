@@ -3,81 +3,89 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Patient;
+use App\Models\User;
 use App\Models\MedicalRecord;
-use App\Models\LabTest;
+use App\Models\GeneralTest;
 use App\Models\LabTestOrder;
 
 class LabTestOrderController extends Controller
 {
     public function index()
     {
-        $labtestorders = LabTestOrder::all();
+        $labtestorders = LabTestOrder::with(['medicalRecord', 'genTest', 'orderedByUser'])->get();
         return view('backend.lab_test_orders.index', compact('labtestorders'));
     }
 
     public function create()
     {
-        $medicals=MedicalRecord::get();
-        $patients=Patient::get();
-        $labtests=LabTest::get();
-        return view('backend.lab_test_orders.create')
-            ->with('medicals',$medicals)
-            ->with('patients',$patients)
-            ->with('labtests',$labtests);
+        $medicalRecords = MedicalRecord::get();
+        $users = User::get();
+        $genTests = GeneralTest::get();
+        return view('backend.lab_test_orders.create', compact('medicalRecords', 'users', 'genTests'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'medical_record_id' => 'required|exists:medical_records,id',
-            'patient_id' => 'required|exists:patients,id',
-            'lab_test_id' => 'required|exists:lab_tests,id',
+            'ordered_by' => 'required|exists:users,id',
+            'general_test_id' => 'required|exists:general_tests,id',
+            'test_name' => 'required',
+            'status' => 'required|in:active,inactive',
         ]);
 
-        LabTestOrder::create($request->all());
+        $labTestOrder = new LabTestOrder();
+        $labTestOrder->medical_record_id = $request->input('medical_record_id');
+        $labTestOrder->ordered_by = $request->input('ordered_by');
+        $labTestOrder->general_test_id = $request->input('general_test_id');
+        $labTestOrder->test_name = $request->input('test_name');
+        $labTestOrder->status = $request->input('status');
+        $labTestOrder->save();
 
         return redirect()->route('lab_test_orders.index')
             ->with('success', 'Lab test order created successfully.');
     }
 
-    public function show(LabTestOrder $labtestorder)
+    public function show(LabTestOrder $lab_test_order)
     {
-        return view('backend.lab_test_orders.show', compact('labtestorder'));
+        $lab_test_order->load(['medicalRecord', 'genTest', 'orderedByUser']);
+        return view('backend.lab_test_orders.show', compact('lab_test_order'));
     }
 
-    public function edit($id)
+    public function edit(LabTestOrder $lab_test_order)
     {
-        $labto=LabTestOrder::findOrFail($id);
-        $medicals=MedicalRecord::get();
-        $patients=Patient::get();
-        $labtests=LabTest::get();
-        return view('backend.lab_test_orders.edit')
-            ->with('labto',$labto)
-            ->with('medicals',$medicals)
-            ->with('patients',$patients)
-            ->with('labtests',$labtests);
+        $medicalRecords = MedicalRecord::get();
+        $users = User::get();
+        $genTests = GeneralTest::get();
+        return view('backend.lab_test_orders.edit', compact('lab_test_order', 'medicalRecords', 'users', 'genTests'));
     }
 
-    public function update(Request $request, LabTestOrder $labtestorder)
+    public function update(Request $request, LabTestOrder $lab_test_order)
     {
         $request->validate([
             'medical_record_id' => 'required|exists:medical_records,id',
-            'patient_id' => 'required|exists:patients,id',
-            'lab_test_id' => 'required|exists:lab_tests,id',
+            'ordered_by' => 'required|exists:users,id',
+            'general_test_id' => 'required|exists:general_tests,id',
+            'test_name' => 'required',
+            'status' => 'required|in:active,inactive',
         ]);
 
-        $labtestorder->update($request->all());
+        $lab_test_order->medical_record_id = $request->input('medical_record_id');
+        $lab_test_order->ordered_by = $request->input('ordered_by');
+        $lab_test_order->general_test_id = $request->input('general_test_id');
+        $lab_test_order->test_name = $request->input('test_name');
+        $lab_test_order->status = $request->input('status');
+        $lab_test_order->save();
 
         return redirect()->route('lab_test_orders.index')
-            ->with('success', 'Lab test Order updated successfully');
+            ->with('success', 'Lab test order updated successfully.');
     }
 
-    public function destroy(LabTestOrder $labtestorder)
+    public function destroy(LabTestOrder $lab_test_order)
     {
-        $labtestorder->delete();
+        $lab_test_order->delete();
 
         return redirect()->route('lab_test_orders.index')
-            ->with('success', 'Lab test Order deleted successfully');
+            ->with('success', 'Lab test order deleted successfully.');
     }
 }

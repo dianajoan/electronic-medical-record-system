@@ -13,26 +13,41 @@ class MedicalRecord extends Model
 
     protected $fillable = [
         'patient_id',
+        'user_id',
         'visit_date',
-        'primary_diagnosis',
-        'secondary_diagnosis',
+        'primary_diagnosis_id',
+        'symptoms',
+        'treatment_given',
+        'outcome',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by'
     ];
-
-    protected $dates = ['visit_date'];
 
     public function patient()
     {
         return $this->belongsTo(Patient::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function primaryDiagnosis()
+    {
+        return $this->belongsTo(Diagnosis::class, 'primary_diagnosis_id');
+    }
+
+    public function secondaryDiagnoses()
+    {
+        return $this->belongsToMany(Diagnosis::class, 'medical_record_secondary_diagnoses', 'medical_record_id', 'diagnosis_id');
+    }
+
     public static function countActiveMedical()
     {
-        $data = MedicalRecord::where('status', 'active')->count();
-        if ($data) {
-            return $data;
-        }
-        return 0;
+        return self::where('status', 'active')->count();
     }
 
     protected static function boot()

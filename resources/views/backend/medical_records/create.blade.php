@@ -9,7 +9,7 @@
           <div class="col-sm-4">
               <div class="page-header float-left">
                   <div class="page-title">
-                      <h1>Add Medical</h1>
+                      <h1>Add Medical Records</h1>
                   </div>
               </div>
           </div>
@@ -17,9 +17,9 @@
               <div class="page-header float-right">
                   <div class="page-title">
                       <ol class="breadcrumb text-right">
-                          <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                          <li><a href="{{ route('medical_records.index') }}">Medical</a></li>
-                          <li class="active">Add Medical</li>
+                          <li><a href="{{ route('admin') }}">Dashboard</a></li>
+                          <li><a href="{{ route('medical_records.index') }}">Medical Records</a></li>
+                          <li class="active">Add Medical Record</li>
                       </ol>
                   </div>
               </div>
@@ -34,59 +34,135 @@
       <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <strong>Medical</strong>
+                <strong>Add Medical Record</strong>
             </div>
             <div class="card-body card-block">
-              <form method="post" action="{{route('medical_records.store')}}" enctype="multipart/form-data">
-                {{csrf_field()}}
+              <form method="POST" action="{{ route('medical_records.store') }}" enctype="multipart/form-data">
+                @csrf
 
-                      <div class="form-group">
-                        <label for="patient_id">Patients<span class="text-danger">*</span></label>
-                        <select name="patient_id" class="form-control" required>
-                            <option value="">----</option>
-                            @foreach($patients as $key=>$data)
-                                <option value='{{$data->id}}'>{{$data->first_name}}</option>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
                             @endforeach
-                        </select>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="inputTitle" class="col-form-label">Visit Date <span class="text-danger">*</span></label>
-                        <input id="inputTitle" type="date" name="visit_date" placeholder=""  value="{{old('visit_date')}}" class="form-control" required>
-                        @error('visit_date')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
+                        </ul>
                     </div>
+                @endif
 
-                    <div class="form-group">
-                      <label for="inputTitle" class="col-form-label">Primary Diagnosis<span class="text-danger">*</span></label>
-                      <input id="inputTitle" type="text" name="primary_diagnosis" placeholder=""  value="{{old('primary_diagnosis')}}" class="form-control" required>
-                      @error('primary_diagnosis')
-                      <span class="text-danger">{{$message}}</span>
-                      @enderror
-                  </div>
 
-                  <div class="form-group">
-                    <label for="inputTitle" class="col-form-label">Secondary Diagnosis<span class="text-danger">*</span></label>
-                    <input id="inputTitle" type="text" name="secondary_diagnosis" placeholder=""  value="{{old('secondary_diagnosis')}}" class="form-control" required>
-                    @error('secondary_diagnosis')
-                    <span class="text-danger">{{$message}}</span>
+                <div class="form-group">
+                    <label for="patient_id">Patient<span class="text-danger">*</span></label>
+                    <select name="patient_id" id="patient_id" class="form-control" required>
+                        <option value="">Select Patient</option>
+                        @foreach($patients as $patient)
+                        <option value="{{ $patient->id }}" {{ old('patient_id') == $patient->id ? 'selected' : '' }}>
+                            {{ $patient->first_name }} {{ $patient->last_name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('patient_id')
+                        <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                
+
                 <div class="form-group">
-                  <label for="status" class="col-form-label">Status<span class="text-danger">*</span></label>
-                  <select name="status" class="form-control" required>
-                      <option value="active">Active</option>
-                      <option value="inactive">Inactive</option>
+                  <label for="user_id">User<span class="text-danger">*</span></label>
+                  <select name="user_id" id="user_id" class="form-control" required>
+                      <option value="">Select User</option>
+                      @foreach($users as $user)
+                      <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                          {{ $user->name }} <!-- Replace with the actual name or identifier -->
+                      </option>
+                      @endforeach
                   </select>
-                  @error('status')
-                  <span class="text-danger">{{$message}}</span>
+                  @error('user_id')
+                      <span class="text-danger">{{ $message }}</span>
                   @enderror
+              </div>
+              
+
+                <div class="form-group">
+                    <label for="visit_date">Visit Date<span class="text-danger">*</span></label>
+                    <input type="datetime-local" id="visit_date" name="visit_date" class="form-control" value="{{ old('visit_date') }}" required>
+                    @error('visit_date')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
+
+                <div class="form-group">
+                    <label for="primary_diagnosis_id">Primary Diagnosis<span class="text-danger">*</span></label>
+                    <select name="primary_diagnosis_id" id="primary_diagnosis_id" class="form-control" required>
+                        <option value="">Select Diagnosis</option>
+                        @foreach($diagnoses as $diagnosis)
+                        <option value="{{ $diagnosis->id }}" {{ old('primary_diagnosis_id') == $diagnosis->id ? 'selected' : '' }}>
+                            {{ $diagnosis->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('primary_diagnosis_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="secondary_diagnoses">Secondary Diagnoses</label>
+                    <select name="secondary_diagnoses[]" id="secondary_diagnoses" class="form-control" multiple>
+                        @foreach($diagnoses as $diagnosis)
+                        <option value="{{ $diagnosis->id }}" {{ in_array($diagnosis->id, old('secondary_diagnoses', [])) ? 'selected' : '' }}>
+                            {{ $diagnosis->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('secondary_diagnoses')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="symptoms">Symptoms<span class="text-danger">*</span></label>
+                    <textarea id="symptoms" name="symptoms" class="form-control" required>{{ old('symptoms') }}</textarea>
+                    @error('symptoms')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="treatment_given">Treatment Given<span class="text-danger">*</span></label>
+                    <textarea id="treatment_given" name="treatment_given" class="form-control" required>{{ old('treatment_given') }}</textarea>
+                    @error('treatment_given')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="outcome">Outcome<span class="text-danger">*</span></label>
+                    <select name="outcome" id="outcome" class="form-control" required>
+                        <option value="admitted" {{ old('outcome') == 'admitted' ? 'selected' : '' }}>Admitted</option>
+                        <option value="died" {{ old('outcome') == 'died' ? 'selected' : '' }}>Died</option>
+                        <option value="referred" {{ old('outcome') == 'referred' ? 'selected' : '' }}>Referred</option>
+                        <option value="discharged" {{ old('outcome') == 'discharged' ? 'selected' : '' }}>Discharged</option>
+                    </select>
+                    @error('outcome')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status<span class="text-danger">*</span></label>
+                    <select name="status" id="status" class="form-control" required>
+                        <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                        <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                    </select>
+                    @error('status')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <div class="form-group mb-3">
-                  <button type="reset" class="btn btn-warning">Reset</button>
-                  <button class="btn btn-success" type="submit">Submit</button>
+                    <button type="reset" class="btn btn-warning">Reset</button>
+                    <button class="btn btn-success" type="submit">Submit</button>
                 </div>
               </form>
             </div>
@@ -121,8 +197,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#comment').summernote({
-            placeholder: "Write detail Message.....",
+        $('#symptoms, #treatment_given').summernote({
+            placeholder: "Write detailed information...",
             tabsize: 2,
             height: 150
         });

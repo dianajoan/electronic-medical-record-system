@@ -13,12 +13,16 @@ class Appointment extends Model
 
     protected $fillable = [
         'name',
-        'date',
-        'time',
+        'clinical_notes',
+        'appointment_date',
         'patient_id',
         'medical_record_id',
         'clinic_id',
+        'authenticated_by',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by'
     ];
 
     public function patient()
@@ -36,13 +40,14 @@ class Appointment extends Model
         return $this->belongsTo(Clinic::class);
     }
 
-    public static function countActiveAppointment()
+    public function user()
     {
-        $data = Appointment::where('status', 'postponded')->count();
-        if ($data) {
-            return $data;
-        }
-        return 0;
+        return $this->belongsTo(User::class, 'authenticated_by');
+    }
+
+    public static function countActiveAppointments()
+    {
+        return self::where('status', 'postponed')->count();
     }
 
     protected static function boot()

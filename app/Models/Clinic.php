@@ -14,7 +14,15 @@ class Clinic extends Model
     protected $fillable = [
         'name',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 
     public static function countActiveClinic()
     {

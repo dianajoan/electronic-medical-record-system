@@ -17,7 +17,7 @@ class CreateUserRolesTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('user_id');
-            $table->enum('role',['admin','user'])->default('user');
+            $table->enum('role',['admin','user', 'doctor', 'nurse', 'lab_technician'])->default('user');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes

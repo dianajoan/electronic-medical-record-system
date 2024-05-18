@@ -27,7 +27,9 @@ class PatientController extends Controller
             'gender' => 'required',
             'date_of_birth' => 'required|date',
             'phone_number' => 'required',
+            'next_of_kin_name' => 'required',
             'next_of_kin_relationship' => 'required',
+            'next_of_kin_phone_number' => 'required',
         ]);
 
         Patient::create($request->all());
@@ -49,12 +51,15 @@ class PatientController extends Controller
     public function update(Request $request, Patient $patient)
     {
         $request->validate([
+            'file_number' => 'required|unique:patients',
             'first_name' => 'required',
             'last_name' => 'required',
             'gender' => 'required',
             'date_of_birth' => 'required|date',
             'phone_number' => 'required',
+            'next_of_kin_name' => 'required',
             'next_of_kin_relationship' => 'required',
+            'next_of_kin_phone_number' => 'required',
         ]);
 
         $patient->update($request->all());

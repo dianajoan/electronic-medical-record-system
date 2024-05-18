@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LabTest;
+use App\Models\MedicalRecord;
+use App\Models\User;
 
 class LabTestController extends Controller
 {
@@ -13,15 +15,21 @@ class LabTestController extends Controller
     }
 
     public function create()
-    {
-        return view('backend.lab_tests.create');
-    }
+{
+    $medicalRecords = MedicalRecord::all();
+    $users = User::all();
+    return view('backend.lab_tests.create', compact('medicalRecords', 'users'));
+}
+
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|unique:lab_tests',
-            'duration' => 'required|date',
+            'duration' => 'required',
+            'medical_record_id' => 'required|exists:medical_records,id',
+            'authenticated_by' => 'required|exists:users,id',
+            'status' => 'required|in:active,inactive',
         ]);
 
         LabTest::create($request->all());
@@ -30,34 +38,40 @@ class LabTestController extends Controller
             ->with('success', 'Lab Test created successfully.');
     }
 
-    public function show(LabTest $labtest)
+    public function show(LabTest $lab_test)
     {
-        return view('backend.lab_tests.show', compact('labtest'));
+        $lab_test->load(['medicalRecord', 'user']);
+        return view('backend.lab_tests.show', compact('lab_test'));
     }
 
-    public function edit(LabTest $labtest)
+    public function edit(LabTest $lab_test)
     {
-        return view('backend.lab_tests.edit', compact('labtest'));
+        $medicalRecords = MedicalRecord::all();
+        $users = User::all();
+        return view('backend.lab_tests.edit', compact('medicalRecords', 'users', 'lab_test'));
     }
 
-    public function update(Request $request, LabTest $labtest)
+    public function update(Request $request, LabTest $lab_test)
     {
         $request->validate([
-            'name' => 'required|unique:lab_tests',
-            'duration' => 'required|date',
+            'name' => 'required|unique:lab_tests,name,' . $lab_test->id,
+            'duration' => 'required',
+            'medical_record_id' => 'required|exists:medical_records,id',
+            'authenticated_by' => 'required|exists:users,id',
+            'status' => 'required|in:active,inactive',
         ]);
 
-        $labtest->update($request->all());
+        $lab_test->update($request->all());
 
         return redirect()->route('lab_tests.index')
             ->with('success', 'Lab Test updated successfully');
     }
 
-    public function destroy(LabTest $labtest)
+    public function destroy(LabTest $lab_test)
     {
         $labtest->delete();
 
-        return redirect()->route('backend.lab_tests.index')
+        return redirect()->route('lab_tests.index')
             ->with('success', 'Lab Test deleted successfully');
     }
 }

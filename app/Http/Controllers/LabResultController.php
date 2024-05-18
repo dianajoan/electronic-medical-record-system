@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\LabResult;
-use App\Models\MedicalRecord;
-use App\Models\Patient;
+use App\Models\LabTestOrder;
+use App\Models\User; // Assuming you have a User model for authenticated_by
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // To get the authenticated user
 
 class LabResultController extends Controller
 {
@@ -17,24 +18,24 @@ class LabResultController extends Controller
 
     public function create()
     {
-        $medicals=MedicalRecord::get();
-        $patients=Patient::get();
-        return view('backend.lab_results.create')
-            ->with('medicals',$medicals)
-            ->with('patients',$patients);
+        $labTestOrders = LabTestOrder::get(); // Get lab test orders for lab_test_order_id field
+        $users = User::get(); // Get users for authenticated_by field
+        return view('backend.lab_results.create', compact('labTestOrders', 'users'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'medical_record_id' => 'required|exists:medical_records,id',
-            'patient_id' => 'required|exists:patients,id',
-            'test_name' => 'required',
+            'lab_test_order_id' => 'required|exists:lab_test_orders,id',
+            'authenticated_by' => 'required|exists:users,id',
             'result_details' => 'required',
             'result_date' => 'required|date',
+            'status' => 'required|in:active,inactive',
         ]);
 
-        LabResult::create($request->all());
+        $labResult = new LabResult($request->all());
+        $labResult->created_by = Auth::id(); // Set created_by to the authenticated user
+        $labResult->save();
 
         return redirect()->route('lab_results.index')
             ->with('success', 'Lab result created successfully.');
@@ -47,26 +48,25 @@ class LabResultController extends Controller
 
     public function edit($id)
     {
-        $lab=LabResult::findOrFail($id);
-        $medicals=MedicalRecord::get();
-        $patients=Patient::get();
-        return view('backend.lab_results.edit')
-            ->with('lab',$lab)
-            ->with('medicals',$medicals)
-            ->with('patients',$patients);
+        $lab = LabResult::findOrFail($id);
+        $labTestOrders = LabTestOrder::get(); // Get lab test orders for lab_test_order_id field
+        $users = User::get(); // Get users for authenticated_by field
+        return view('backend.lab_results.edit', compact('lab', 'labTestOrders', 'users'));
     }
 
     public function update(Request $request, LabResult $labResult)
     {
         $request->validate([
-            'medical_record_id' => 'required|exists:medical_records,id',
-            'patient_id' => 'required|exists:patients,id',
-            'test_name' => 'required',
+            'lab_test_order_id' => 'required|exists:lab_test_orders,id',
+            'authenticated_by' => 'required|exists:users,id',
             'result_details' => 'required',
             'result_date' => 'required|date',
+            'status' => 'required|in:active,inactive',
         ]);
 
-        $labResult->update($request->all());
+        $labResult->fill($request->all());
+        $labResult->updated_by = Auth::id(); // Set updated_by to the authenticated user
+        $labResult->save();
 
         return redirect()->route('lab_results.index')
             ->with('success', 'Lab result updated successfully');
@@ -74,6 +74,8 @@ class LabResultController extends Controller
 
     public function destroy(LabResult $labResult)
     {
+        $labResult->deleted_by = Auth::id(); // Set deleted_by to the authenticated user
+        $labResult->save();
         $labResult->delete();
 
         return redirect()->route('lab_results.index')

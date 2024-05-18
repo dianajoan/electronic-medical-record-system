@@ -15,8 +15,8 @@
       <div class="page-header float-right">
           <div class="page-title">
               <ol class="breadcrumb text-right">
-                <li><a href="{{ route('admin')}}">Dashboard</a></li>
-                <li><a href="{{ route('lab_tests.create')}}">Add Lab Test</a></li>
+                <li><a href="{{ route('admin') }}">Dashboard</a></li>
+                <li><a href="{{ route('lab_tests.create') }}">Add Lab Test</a></li>
                 <li class="active">View</li>
               </ol>
           </div>
@@ -34,13 +34,15 @@
                       <strong class="card-title">View</strong>
                   </div>
                   <div class="card-body">
-                    @if(count($labtests)>0)
+                    @if(count($labtests) > 0)
                       <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                           <thead>
                               <tr>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Duration</th>
+                                <th>Medical Record ID</th>
+                                <th>Authenticated By</th>
                                 <th>Status</th>
                                 <th>Action</th>
                               </tr>
@@ -48,39 +50,38 @@
                           <tbody>
                             @foreach($labtests as $data)  
                               <tr>
-                                <td>{{$data->id}}</td>
-                                <td>{{$data->name}}</td>
-                                <td>{{$data->duration}}</td>
+                                <td>{{ $data->id }}</td>
+                                <td>{{ $data->name }}</td>
+                                <td>{{ $data->duration }}</td>
+                                <td>{{ $data->medicalRecord->symptoms }}</td>
+                                <td>{{ $data->user->name }}</td>
                                 <td>
-                                    @if($data->status=='active')
-                                        <span class="badge badge-success">{{$data->status}}</span>
+                                    @if($data->status == 'active')
+                                        <span class="badge badge-success">{{ $data->status }}</span>
                                     @else
-                                        <span class="badge badge-warning">{{$data->status}}</span>
+                                        <span class="badge badge-warning">{{ $data->status }}</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{route('lab_tests.edit',$data->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
-                                <form method="POST" action="{{route('lab_tests.destroy',[$data->id])}}">
-                                  @csrf 
-                                  @method('delete')
-                                      <button class="btn btn-danger btn-sm dltBtn" data-id={{$data->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
+                                    <a href="{{ route('lab_tests.edit', $data->id) }}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
+                                    <form method="POST" action="{{ route('lab_tests.destroy', $data->id) }}">
+                                      @csrf 
+                                      @method('delete')
+                                      <button class="btn btn-danger btn-sm dltBtn" data-id={{ $data->id }} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
                                     </form>
                                 </td>
                               </tr>
-                              @endforeach
+                            @endforeach
                           </tbody>
                       </table>
-                      @else
-                      <h6 class="text-center">No labtest found!!! Please add labtest</h6>
+                    @else
+                      <h6 class="text-center">No lab test found!!! Please add lab test</h6>
                     @endif
                   </div>
               </div>
           </div>
-
-
       </div>
-  </div><!-- .animated -->
-</div><!-- .content -->
+  </div>
+</div>
 
 @endsection
-

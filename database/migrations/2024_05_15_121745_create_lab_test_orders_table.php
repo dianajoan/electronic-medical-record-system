@@ -16,15 +16,16 @@ class CreateLabTestOrdersTable extends Migration
         Schema::create('lab_test_orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('medical_record_id');
-            $table->unsignedBigInteger('patient_id');
-            $table->unsignedBigInteger('lab_test_id');
-            $table->enum('status',['active','inactive'])->default('inactive');
+            $table->unsignedBigInteger('ordered_by');
+            $table->unsignedBigInteger('general_test_id');
+            $table->string('test_name');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
 
             $table->foreign('medical_record_id')->references('id')->on('medical_records')->onDelete('cascade');
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
-            $table->foreign('lab_test_id')->references('id')->on('lab_tests')->onDelete('cascade');
+            $table->foreign('ordered_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('general_test_id')->references('id')->on('general_tests')->onDelete('cascade');
 
             // Adding created_by, updated_by, and deleted_by columns
             $table->unsignedBigInteger('created_by')->nullable();

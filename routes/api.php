@@ -18,41 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Routes for Users
-Route::resource('/users','UsersController');
+// routes/api.php
 
-//Routes for Users
-Route::resource('/roles','UserRoleController');
+use App\Http\Controllers\PatientController;
 
-// Routes for PatientController
-Route::resource('/patients','PatientController');
-
-// Routes for MedicalRecordController
-Route::resource('/medical_records','MedicalRecordController');
-
-// Routes for LabTestController
-Route::resource('/lab_tests','LabTestController');
-
-// Routes for LabResultController
-Route::resource('/lab_results','LabResultController');
-
-// Routes for LabTestOrderController
-Route::resource('/lab_test_orders','LabTestOrderController');
-
-// Routes for LabResultOrderController
-Route::resource('/lab_result_orders','LabResultOrderController');
-
-// Routes for DiagnosisController
-Route::resource('/diagnosis','DiagnosisController');
-
-// Routes for DrugController
-Route::resource('/drugs','DrugController');
-
-// Routes for DrugPrescriptionController
-Route::resource('/drug_prescriptions','DrugPrescriptionController');
-
-// Routes for AppointmentController
-Route::resource('/appointments','AppointmentController');
-
-// Routes for ClinicController
-Route::resource('/clinics','ClinicController');
+Route::apiResource('patients', PatientController::class);
+Route::post('patients/{patient}/reactivate', [PatientController::class, 'reactivate']);

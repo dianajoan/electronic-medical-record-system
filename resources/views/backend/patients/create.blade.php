@@ -39,6 +39,17 @@
           <div class="card-body card-block">
             <form method="post" action="{{route('patients.store')}}">
               {{csrf_field()}}
+
+              @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              @endif
+
               <div class="form-group">
                 <label for="inputTitle" class="col-form-label">File Number</label>
                 <input id="inputTitle" type="text" name="file_number" placeholder=""  value="{{old('file_number')}}" class="form-control" required>
@@ -65,7 +76,10 @@
 
               <div class="form-group">
                 <label for="inputTitle" class="col-form-label">Gender</label>
-                <input id="inputTitle" type="text" name="gender" placeholder=""  value="{{old('gender')}}" class="form-control" required>
+                <select name="gender" class="form-control">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+              </select>
                 @error('gender')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
@@ -88,9 +102,25 @@
               </div>
 
               <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Next of Kin Name</label>
+                <input id="inputTitle" type="text" name="next_of_kin_name" placeholder=""  value="{{old('next_of_kin_name')}}" class="form-control" required>
+                @error('next_of_kin_name')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+              </div>
+
+              <div class="form-group">
                 <label for="inputTitle" class="col-form-label">Next of Kin Relationship</label>
                 <input id="inputTitle" type="text" name="next_of_kin_relationship" placeholder=""  value="{{old('next_of_kin_relationship')}}" class="form-control" required>
                 @error('next_of_kin_relationship')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+              </div>
+
+              <div class="form-group">
+                <label for="inputTitle" class="col-form-label">Next of Kin Phone Number</label>
+                <input id="inputTitle" type="text" name="next_of_kin_phone_number" placeholder=""  value="{{old('next_of_kin_phone_number')}}" class="form-control" required>
+                @error('next_of_kin_phone_number')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
               </div>

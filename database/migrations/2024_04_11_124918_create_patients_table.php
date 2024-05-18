@@ -18,10 +18,12 @@ class CreatePatientsTable extends Migration
             $table->string('file_number')->unique();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('gender');
+            $table->enum('gender', ['male', 'female']);
             $table->date('date_of_birth');
             $table->string('phone_number');
+            $table->string('next_of_kin_name');
             $table->string('next_of_kin_relationship');
+            $table->string('next_of_kin_phone_number');
             $table->enum('status',['active','inactive'])->default('inactive');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
