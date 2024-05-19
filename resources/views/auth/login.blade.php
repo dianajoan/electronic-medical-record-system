@@ -33,11 +33,11 @@
     <div class="sufee-login d-flex align-content-center flex-wrap">
         <div class="container">
             <div class="login-content">
-                {{-- <div class="login-logo">
-                    <a href="{{ route('home') }}">
-                        <img class="align-content" src="{{ asset('backend/images/logo.jpeg') }}" alt="{{ asset('backend/images/logo.jpeg') }}" style="width: auto; height: 100px;">
+                <div class="login-logo">
+                    <a href="{{ route('admin') }}">
+                        <img class="align-content" src="{{ asset('backend/images/logo.png') }}" alt="{{ asset('backend/images/logo.png') }}" style="width: auto; height: 100px;">
                     </a>
-                </div> --}}
+                </div>
                 <div class="login-form">
                     <form class="user" action="{{ route('login') }}" method="post">
                         @csrf

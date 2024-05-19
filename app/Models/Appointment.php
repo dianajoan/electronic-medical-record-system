@@ -45,7 +45,7 @@ class Appointment extends Model
         return $this->belongsTo(User::class, 'authenticated_by');
     }
 
-    public static function countActiveAppointments()
+    public static function countActiveAppointment()
     {
         return self::where('status', 'postponed')->count();
     }
