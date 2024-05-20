@@ -78,7 +78,7 @@
 
                 <div class="form-group">
                   <label for="result_details" class="col-form-label">Result Details</label>
-                  <textarea class="form-control" id="result_details" name="result_details" required>{{ old('result_details') }}</textarea>
+                  <textarea class="form-control ckeditor" id="result_details" name="result_details" required>{{ old('result_details') }}</textarea>
                   @error('result_details')
                   <span class="text-danger">{{ $message }}</span>
                   @enderror
@@ -117,34 +117,13 @@
 
 @endsection
 
-@push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css">
-
-<style>
-  #left-panel {
-      background-color: #272c33;
-  }
-
-  #left-panel .navbar-default {
-      background-color: #272c33;
-      border-color: #272c33;
-  }
-</style>
-
-@endpush
-
 @push('scripts')
-<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#result_details').summernote({
-            placeholder: "Write detailed results...",
-            tabsize: 2,
-            height: 150
-        });
+
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.ckeditor').ckeditor();
     });
 </script>
+
 @endpush

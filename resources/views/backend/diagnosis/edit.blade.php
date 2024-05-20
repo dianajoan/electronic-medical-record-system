@@ -91,35 +91,3 @@
 </div>
 
 @endsection
-
-@push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css">
-
-<style>
-  #left-panel {
-      background-color: #272c33;
-  }
-
-  #left-panel .navbar-default {
-      background-color: #272c33;
-      border-color: #272c33;
-  }
-</style>
-
-@endpush
-
-@push('scripts')
-<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#comment').summernote({
-            placeholder: "Write detail Message.....",
-            tabsize: 2,
-            height: 150
-        });
-    });
-</script>
-@endpush

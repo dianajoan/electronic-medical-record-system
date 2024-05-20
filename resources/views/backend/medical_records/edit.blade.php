@@ -128,7 +128,7 @@
 
                 <div class="form-group">
                     <label for="treatment_given">Treatment Given<span class="text-danger">*</span></label>
-                    <textarea id="treatment_given" name="treatment_given" class="form-control" required>{{ $medical_record->treatment_given }}</textarea>
+                    <textarea id="treatment_given" name="treatment_given" class="form-control ckeditor" required>{{ $medical_record->treatment_given }}</textarea>
                     @error('treatment_given')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -171,34 +171,13 @@
 
 @endsection
 
-@push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css">
-
-<style>
-  #left-panel {
-      background-color: #272c33;
-  }
-
-  #left-panel .navbar-default {
-      background-color: #272c33;
-      border-color: #272c33;
-  }
-</style>
-
-@endpush
-
 @push('scripts')
-<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#symptoms, #treatment_given').summernote({
-            placeholder: "Write detailed information...",
-            tabsize: 2,
-            height: 150
-        });
+
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.ckeditor').ckeditor();
     });
 </script>
+
 @endpush

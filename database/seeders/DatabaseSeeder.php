@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             LabTestOrdersSeeder::class,
             LabResultSeeder::class,
             AppointmentsTableSeeder::class,
+            DrugPrescriptionSeeder::class,
         ]);
     }
 }

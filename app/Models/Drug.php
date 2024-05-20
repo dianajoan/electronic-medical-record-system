@@ -29,7 +29,7 @@ class Drug extends Model
 
     public function prescriptions()
     {
-        return $this->hasMany(DrugPrescription::class);
+        return $this->belongsToMany(DrugPrescription::class, 'drug_prescription_drug')->withTimestamps();
     }
 
     public static function countActiveDrug()

@@ -12,33 +12,40 @@ class DrugPrescription extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'patient_id',
         'medical_record_id',
-        'drug_id',
         'stock',
         'dosage_instructions',
         'prescription_date',
         'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
-    protected $dates = ['prescription_date'];
+    protected $casts = [
+        'dosage_instructions' => 'array',
+        'prescription_date' => 'datetime',
+    ];
 
     public function medicalRecord()
     {
         return $this->belongsTo(MedicalRecord::class);
     }
 
-    public function drug()
+    public function patient()
     {
-        return $this->belongsTo(Drug::class);
+        return $this->belongsTo(Patient::class);
+    }
+
+    public function drugs()
+    {
+        return $this->belongsToMany(Drug::class, 'drug_prescription_drug');
     }
 
     public static function countActiveDrug()
     {
-        $data = DrugPrescription::where('status', 'active')->count();
-        if ($data) {
-            return $data;
-        }
-        return 0;
+        return self::where('status', 'active')->count();
     }
 
     protected static function boot()

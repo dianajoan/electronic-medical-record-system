@@ -119,7 +119,7 @@
 
                 <div class="form-group">
                   <label for="inputDesc" class="col-form-label">Clinical Notes <span class="text-danger">*</span></label>
-                  <textarea class="form-control" id="clinical_notes" name="clinical_notes" required>{{$appointment->clinical_notes}}</textarea>
+                  <textarea class="form-control ckeditor" id="clinical_notes" name="clinical_notes" required>{{$appointment->clinical_notes}}</textarea>
                   @error('clinical_notes')
                   <span class="text-danger">{{$message}}</span>
                   @enderror
@@ -152,34 +152,13 @@
 
 @endsection
 
-@push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css">
-
-<style>
-  #left-panel {
-      background-color: #272c33;
-  }
-
-  #left-panel .navbar-default {
-      background-color: #272c33;
-      border-color: #272c33;
-  }
-</style>
-
-@endpush
-
 @push('scripts')
-<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#comment').summernote({
-            placeholder: "Write detail Message.....",
-            tabsize: 2,
-            height: 150
-        });
+
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.ckeditor').ckeditor();
     });
 </script>
+
 @endpush

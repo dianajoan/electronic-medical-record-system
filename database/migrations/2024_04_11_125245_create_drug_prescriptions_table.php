@@ -16,16 +16,17 @@ class CreateDrugPrescriptionsTable extends Migration
         Schema::create('drug_prescriptions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('medical_record_id');
-            $table->unsignedBigInteger('drug_id');
-            $table->boolean('stock')->default(false);
-            $table->text('dosage_instructions');
+            $table->unsignedBigInteger('patient_id');
+            $table->enum('stock', ['in_stock', 'not_in_stock'])->default('not_in_stock');
+            $table->json('dosage_instructions'); // This will store JSON instructions for each drug
             $table->dateTime('prescription_date');
-            $table->enum('status',['active','inactive'])->default('inactive');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->timestamps();
             $table->softDeletes(); // Enables soft deletes
 
+            // Foreign key constraints
             $table->foreign('medical_record_id')->references('id')->on('medical_records')->onDelete('cascade');
-            $table->foreign('drug_id')->references('id')->on('drugs')->onDelete('cascade');
+            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
 
             // Adding created_by, updated_by, and deleted_by columns
             $table->unsignedBigInteger('created_by')->nullable();
@@ -36,6 +37,17 @@ class CreateDrugPrescriptionsTable extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('deleted_by')->references('id')->on('users')->onDelete('set null');
+        });
+
+        Schema::create('drug_prescription_drug', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('drug_prescription_id');
+            $table->unsignedBigInteger('drug_id');
+            $table->timestamps();
+
+            // Foreign key constraints
+            $table->foreign('drug_prescription_id')->references('id')->on('drug_prescriptions')->onDelete('cascade');
+            $table->foreign('drug_id')->references('id')->on('drugs')->onDelete('cascade');
         });
     }
 
