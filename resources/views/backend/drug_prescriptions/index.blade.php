@@ -71,7 +71,7 @@
                                         @endforeach
                                     </td>
                                     <td>{{ $drugp->stock == 'in_stock' ? 'Yes' : 'No' }}</td>
-                                    <td>{{ $drugp->prescription_date->format('Y-m-d') }}</td>
+                                    <td>{{ $drugp->prescription_date}}</td>
                                     <td>
                                         @if($drugp->status == 'active')
                                             <span class="badge badge-success">{{ $drugp->status }}</span>

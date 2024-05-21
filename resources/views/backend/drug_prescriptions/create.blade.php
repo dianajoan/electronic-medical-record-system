@@ -163,26 +163,28 @@
 
 @push('scripts')
 <script>
-    document.getElementById('add-dosage-instruction').addEventListener('click', function() {
-        var container = document.getElementById('dosage-instructions-container');
-        var index = container.children.length;
-        var html = `<div class="dosage-instruction mt-2">
-                        <select name="dosage_instructions[${index}][drug_id]" class="form-control mb-2" required>
-                            <option value="">Select Drug</option>
-                            @foreach($drugs as $drug)
-                            <option value="{{ $drug->id }}">{{ $drug->name }}</option>
-                            @endforeach
-                        </select>
-                        <textarea class="form-control" name="dosage_instructions[${index}][instruction]" rows="3" placeholder="Dosage Instructions" required></textarea>
-                        <button type="button" class="btn btn-sm btn-danger mt-2 remove-dosage-instruction">Remove</button>
-                    </div>`;
-        container.insertAdjacentHTML('beforeend', html);
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('add-dosage-instruction').addEventListener('click', function() {
+            var container = document.getElementById('dosage-instructions-container');
+            var index = container.children.length;
+            var html = `<div class="dosage-instruction mt-2">
+                            <select name="dosage_instructions[${index}][drug_id]" class="form-control mb-2" required>
+                                <option value="">Select Drug</option>
+                                @foreach($drugs as $drug)
+                                <option value="{{ $drug->id }}">{{ $drug->name }}</option>
+                                @endforeach
+                            </select>
+                            <textarea class="form-control" name="dosage_instructions[${index}][instruction]" rows="3" placeholder="Dosage Instructions" required></textarea>
+                            <button type="button" class="btn btn-sm btn-danger mt-2 remove-dosage-instruction">Remove</button>
+                        </div>`;
+            container.insertAdjacentHTML('beforeend', html);
+        });
 
-    document.getElementById('dosage-instructions-container').addEventListener('click', function(e) {
-        if (e.target && e.target.matches('.remove-dosage-instruction')) {
-            e.target.parentElement.remove();
-        }
+        document.getElementById('dosage-instructions-container').addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-dosage-instruction')) {
+                e.target.closest('.dosage-instruction').remove();
+            }
+        });
     });
 </script>
 @endpush
