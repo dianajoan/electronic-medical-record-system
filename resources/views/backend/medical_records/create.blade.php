@@ -54,7 +54,7 @@
 
                 <div class="form-group">
                     <label for="patient_id">Patient<span class="text-danger">*</span></label>
-                    <select name="patient_id" id="patient_id" class="form-control" required>
+                    <select name="patient_id" id="patient_id" class="form-control select2" required>
                         <option value="">Select Patient</option>
                         @foreach($patients as $patient)
                         <option value="{{ $patient->id }}" {{ old('patient_id') == $patient->id ? 'selected' : '' }}>

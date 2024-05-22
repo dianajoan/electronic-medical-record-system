@@ -20,7 +20,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // routes/api.php
 
-use App\Http\Controllers\PatientController;
+use App\Http\Controllers\Api\PatientController;
 
-Route::apiResource('patients', PatientController::class);
-Route::post('patients/{patient}/reactivate', [PatientController::class, 'reactivate']);
+// Route group for API with Sanctum authentication
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/patients', [PatientController::class, 'index']);
+    Route::post('/patients', [PatientController::class, 'store']);
+    Route::get('/patients/{patient}', [PatientController::class, 'show']);
+    Route::put('/patients/{patient}', [PatientController::class, 'update']);
+    Route::delete('/patients/{patient}', [PatientController::class, 'destroy']);
+    Route::post('/patients/{patient}/reactivate', [PatientController::class, 'reactivate']);
+});
+
+
+
