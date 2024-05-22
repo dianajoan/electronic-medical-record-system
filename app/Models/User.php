@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(UserRole::class);
     }
 
+    public function medicalRecords()
+    {
+        return $this->hasMany(MedicalRecord::class, 'user_id');
+    }
+
     public static function countActiveUser()
     {
         $data = User::where('status', 'active')->count();
