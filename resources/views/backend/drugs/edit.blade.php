@@ -69,7 +69,7 @@
               </div>
 
               <div class="form-group">
-                <label for="inputTitle" class="col-form-label">Form <span class="text-danger">*</span></label>
+                <label for="inputTitle" class="col-form-label">Form of the drug (e.g., syrup, tablet, ointment, injection) <span class="text-danger">*</span></label>
                 <input id="inputTitle" type="text" name="form" placeholder=""  value="{{$drug->form}}" class="form-control" required>
                 @error('form')
                 <span class="text-danger">{{$message}}</span>

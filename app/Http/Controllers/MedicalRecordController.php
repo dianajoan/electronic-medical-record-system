@@ -7,20 +7,39 @@ use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Middleware\StorePatientId;
+use App\Http\Middleware\StoreUserId;
 
 class MedicalRecordController extends Controller
 {
+    
+    public function __construct()
+    {
+        $this->middleware(StorePatientId::class)->only('store'); // Apply only to store method
+        $this->middleware(StoreUserId::class)->only('store'); // Apply only to store method
+    }
+
     public function index()
     {
         $medicalRecords = MedicalRecord::with('patient', 'user', 'secondaryDiagnoses')->get();
         return view('backend.medical_records.index', compact('medicalRecords'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        // Store patient_id and user_id in session if provided
+        if ($request->has('patient_id')) {
+            session(['patient_id' => $request->patient_id]);
+        }
+
+        if ($request->has('user_id')) {
+            session(['user_id' => $request->user_id]);
+        }
+
         $patients = Patient::all();
-        $users = User::all(); // Assuming you have a User model for doctors/nurses
+        $users = User::all();
         $diagnoses = Diagnosis::all();
+
         return view('backend.medical_records.create', compact('patients', 'users', 'diagnoses'));
     }
 
@@ -57,6 +76,9 @@ class MedicalRecordController extends Controller
                 $medicalRecord->secondaryDiagnoses()->sync($request->secondary_diagnoses);
             }
 
+            // Clear patient and user session
+            session()->forget(['patient_id', 'user_id']);
+
             return redirect()->route('medical_records.index')
                 ->with('success', 'Medical record created successfully.');
         } catch (\Exception $e) {
@@ -64,7 +86,6 @@ class MedicalRecordController extends Controller
             return back()->withErrors(['error' => 'There was a problem creating the medical record.']);
         }
     }
-
 
     public function show(MedicalRecord $medicalRecord)
     {
@@ -75,12 +96,11 @@ class MedicalRecordController extends Controller
     public function edit(MedicalRecord $medical_record)
     {
         $patients = Patient::all();
-        $users = User::all(); // Assuming you have a User model for doctors/nurses
+        $users = User::all();
         $diagnoses = Diagnosis::all();
         $medical_record->load('secondaryDiagnoses'); // Load the secondary diagnoses for editing
         return view('backend.medical_records.edit', compact('medical_record', 'patients', 'users', 'diagnoses'));
     }
-
 
     public function update(Request $request, MedicalRecord $medical_record)
     {
